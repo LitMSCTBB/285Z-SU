@@ -1,3 +1,3 @@
 #include "../include/285z/initRobot.hpp"
 
-// pros::Imu imuSensor(15);
+pros::Imu imuSensor(15);

@@ -1,12 +1,17 @@
 #pragma once
 #include "../include/285z/initRobot.hpp"
+#include "../include/285Z_Subsystems/flywheel.hpp"
+#include "../include/285Z_Subsystems/intake.hpp"
 
-//lift 2b
-void twobarUp();
-void twobarDown();
-void fourbarUp();
-void fourbarDown();
-void fourbarLift(const double target);
+// flywheel
+void autoSpin();
+void autoShoot();
+
+// intake
+void autoRun();
+
+// endgame
+void endgame();
 
 //   **AUTON FUNCTIONS**    //
 void noAuton();
@@ -21,24 +26,6 @@ void redRightBlueRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
 
 void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast);
-
-void neutralSideRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-  std::shared_ptr<okapi::AsyncMotionProfileController> fast);
-
-void neutralSideLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-  std::shared_ptr<okapi::AsyncMotionProfileController> fast);
-
-void neutralCenterRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-  std::shared_ptr<okapi::AsyncMotionProfileController> fast);
-
-void neutralCenterLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-    std::shared_ptr<okapi::AsyncMotionProfileController> fast);
-
-void neutralSideCenterRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-  std::shared_ptr<okapi::AsyncMotionProfileController> fast);
-
-void neutralSideCenterLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-    std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 
 const bool fwd {false};
 const bool bwd {true};

@@ -10,10 +10,20 @@ void Flywheel::spin() {
     spinning = !spinning;
   }
   if (spinning) {
-    flywheelFrontMotor.moveVoltage(12000);
-    flywheelBackMotor.moveVoltage(12000);
+    flywheelMotor.moveVoltage(12000);
   } else {
-    flywheelFrontMotor.moveVoltage(0);
-    flywheelBackMotor.moveVoltage(0);
+    flywheelMotor.moveVoltage(0);
+  }
+}
+
+void Flywheel::shooter() {
+  // if (indexerButton.isPressed()) {
+  //   indexerMotor.moveVelocity(120);
+  //   pros::delay(1200);
+  // }
+  if (indexerButton.isPressed()) {
+    indexerMotor.moveRelative(360, 150);
+    // intakeMotor.moveVelocity(-600);
+    // async controller or somemthing
   }
 }

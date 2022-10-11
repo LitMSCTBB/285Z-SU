@@ -6,6 +6,7 @@ class Flywheel {
 
 public:
   void spin();
+  void shooter();
 };
 
 extern Flywheel fw;

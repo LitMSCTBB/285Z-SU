@@ -8,17 +8,20 @@ extern Controller controller;
 extern ControllerButton intakeButton;
 extern ControllerButton outtakeButton;
 extern ControllerButton flywheelButton;
+extern ControllerButton indexerButton;
+extern ControllerButton endgameButton;
 
-//drive motor points
+// drive motor points
 extern int rightFrontPort;
 extern int rightBackPort;
 extern int leftFrontPort;
 extern int leftBackPort;
 
 extern int intakePort;
+extern int indexerPort;
+extern int endgamePort;
 
-extern int flywheelFrontPort;
-extern int flywheelBackPort;
+extern int flywheelPort;
 
 //Motors
 extern Motor rightFrontMotor;
@@ -27,9 +30,10 @@ extern Motor leftFrontMotor;
 extern Motor leftBackMotor;
 
 extern Motor intakeMotor;
+extern Motor indexerMotor;
+extern Motor endgameMotor;
 
-extern Motor flywheelFrontMotor;
-extern Motor flywheelBackMotor;
+extern Motor flywheelMotor;
 
 // Drive motor groups
 extern MotorGroup driveL;
