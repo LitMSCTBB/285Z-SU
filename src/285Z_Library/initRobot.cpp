@@ -30,7 +30,7 @@ Motor leftFrontMotor(leftFrontPort);
 Motor leftBackMotor(leftBackPort);
 
 Motor intakeMotor(intakePort);
-Motor indexerMotor(indexerPort);
+Motor indexerMotor(indexerPort, false, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees);
 Motor endgameMotor(endgamePort);
 
 Motor flywheelMotor(flywheelPort);

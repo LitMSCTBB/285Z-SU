@@ -17,13 +17,18 @@ void Flywheel::spin() {
 }
 
 void Flywheel::shooter() {
+  indexerMotor.setBrakeMode(AbstractMotor::brakeMode::hold);
+
   // if (indexerButton.isPressed()) {
   //   indexerMotor.moveVelocity(120);
   //   pros::delay(1200);
   // }
   if (indexerButton.isPressed()) {
-    indexerMotor.moveRelative(360, 150);
-    // intakeMotor.moveVelocity(-600);
-    // async controller or somemthing
+    indexerMotor.moveRelative(120, 150);
+    intakeMotor.moveRelative(-(600.0 / 60) * 1.5 * 360, 600);
+    // intakeMotor.moveVoltage(-12000);
+    // pros::delay(1500);
+    // intakeMotor.moveVelocity(0);
+    // async controller or something
   }
 }
