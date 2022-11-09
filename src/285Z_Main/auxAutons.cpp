@@ -7,7 +7,6 @@
 
 void noAuton()
 {
-
   pros::delay(15000);
 
 }

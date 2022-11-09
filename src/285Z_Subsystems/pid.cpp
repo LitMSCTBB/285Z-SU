@@ -1,6 +1,7 @@
 #include "../include/285z/initRobot.hpp"
 #include "../include/285z/initSensors.hpp"
 #include "../include/285Z_Subsystems/pid.hpp"
+#include <string>
 
 const double GLOBAL_kP = 3.5;
 const double GLOBAL_kI = 0.0;
@@ -18,7 +19,10 @@ void turn(double degrees){
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
   double thetaI = imuSensor.get_heading();
+
   double thetaF = degrees;
+
+  printf("%f %f", thetaI, thetaF);
 
   double sensorValue = thetaI;
   double turnTarget = thetaF;

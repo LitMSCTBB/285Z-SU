@@ -7,14 +7,17 @@ extern Controller controller;
 //Controller Button
 extern ControllerButton intakeButton;
 extern ControllerButton outtakeButton;
-extern ControllerButton flywheelButton;
+extern ControllerButton flywheelFastButton;
+extern ControllerButton flywheelSlowButton;
 extern ControllerButton indexerButton;
 extern ControllerButton endgameButton;
 
 // drive motor points
 extern int rightFrontPort;
+extern int rightMiddlePort;
 extern int rightBackPort;
 extern int leftFrontPort;
+extern int leftMiddlePort;
 extern int leftBackPort;
 
 extern int intakePort;
@@ -29,6 +32,7 @@ extern Motor rightBackMotor;
 extern Motor leftFrontMotor;
 extern Motor leftBackMotor;
 
+extern pros::Mutex mutex;
 extern Motor intakeMotor;
 extern Motor indexerMotor;
 extern Motor endgameMotor;

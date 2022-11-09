@@ -2,18 +2,48 @@
 #include "../../include/285z/functions.hpp"
 #include "../../include/285z/initRobot.hpp"
 #include "../../include/285z/initSensors.hpp"
+#include "pros/rtos.h"
+#include "pros/rtos.hpp"
 
-bool spinning = false;
+bool fastSpinning = false;
+bool slowSpinning = false;
+
+// void Flywheel::pid() {
+  
+// }
 
 void Flywheel::spin() {
-  if (flywheelButton.changedToPressed()) {
-    spinning = !spinning;
+  if (flywheelFastButton.changedToPressed()) {
+    fastSpinning = !fastSpinning;
+  } else if (flywheelSlowButton.changedToPressed()) {
+    slowSpinning = !slowSpinning;
   }
-  if (spinning) {
-    flywheelMotor.moveVoltage(12000);
+  if (fastSpinning) {
+    flywheelMotor.moveVelocity(2500);
+  } else if (slowSpinning) {
+    flywheelMotor.moveVelocity(1600);
   } else {
-    flywheelMotor.moveVoltage(0);
+    flywheelMotor.moveVelocity(0);
   }
+  printf("%f\n", flywheelMotor.getActualVelocity());
+}
+
+bool shooterRunning = false;
+
+void shooterProc(void* param) {
+  // std::lock_guard<pros::Mutex> guard(mutex);
+  mutex.take();
+  shooterRunning = true;
+  intakeMotor.moveVoltage(-12000);
+  indexerMotor.moveRelative(120, 150);
+  pros::delay(1500);
+  indexerMotor.moveRelative(120, 150);
+  pros::delay(1500);
+  indexerMotor.moveRelative(120, 150);
+  pros::delay(1500);
+  intakeMotor.moveVoltage(0);
+  shooterRunning = false;
+  mutex.give();
 }
 
 void Flywheel::shooter() {
@@ -24,8 +54,21 @@ void Flywheel::shooter() {
   //   pros::delay(1200);
   // }
   if (indexerButton.isPressed()) {
-    indexerMotor.moveRelative(120, 150);
-    intakeMotor.moveRelative(-(600.0 / 60) * 1.5 * 360, 600);
+    if (!shooterRunning) {
+      pros::Task sp(shooterProc);
+    }
+
+    // intakeMotor.moveVelocity(-600);
+    // indexerMotor.moveRelative(120, 150);
+    // pros::delay(1500);
+    // indexerMotor.moveRelative(120, 150);
+    // pros::delay(1500);
+    // indexerMotor.moveRelative(120, 150);
+    // pros::delay(1500);
+    // indexerMotor.moveRelative(120, 150);
+    // pros::delay(1500);
+    // intakeMotor.moveVelocity(0);
+
     // intakeMotor.moveVoltage(-12000);
     // pros::delay(1500);
     // intakeMotor.moveVelocity(0);

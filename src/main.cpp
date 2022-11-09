@@ -1,9 +1,11 @@
 #include "../include/285z/functions.hpp"
 #include "../include/285z/initSensors.hpp"
 #include "../include/pros/llemu.hpp"
+#include "285Z_Subsystems/pid.hpp"
 #include "285z/initRobot.hpp"
 #include "../include/285Z_Subsystems/intake.hpp"
 #include "../include/285Z_Subsystems/flywheel.hpp"
+#include "main.h"
 
 Intake in;
 Flywheel fw;
@@ -25,7 +27,7 @@ std::shared_ptr<ChassisController> chassis =
     okapi::ChassisControllerBuilder()
         .withMotors(driveL, driveR)
         .withDimensions({AbstractMotor::gearset::blue, (60.0 / 36.0)},
-                        {{3.25_in, 14.5_in}, imev5BlueTPR})
+                        {{3.25_in, 11.5_in}, imev5BlueTPR})
         .withMaxVoltage(12000)
         .build();
 
@@ -99,16 +101,38 @@ void competition_initialize() {
   pros::lcd::set_text(6, "// CALIBRATION COMPLETE //");
 
   while (true) {
-    // bool autval = autonSelector.get_value();
+    bool autval = autonSelector.get_value();
 
-    // if (autval == 1) {
-    //   pros::delay(200);
-    //   autoIndex = (autoIndex + 1) % len;
-    // }
+    if (autval == 1) {
+      pros::delay(200);
+      autoIndex = (autoIndex + 1) % len;
+    }
 
-    // pros::lcd::set_text(7, autList[autoIndex]);
+    pros::lcd::set_text(7, autList[autoIndex]);
 
     pros::delay(20);
+  }
+}
+
+void autonomous() {
+  switch (autoIndex) {
+  case (0):
+    noAuton();
+    break;
+  case (1):
+    skillsAuto(normalAuto, fastAuto);
+    break;
+  case (2):
+    redLeftBlueLeft(normalAuto, fastAuto);
+    break;
+  case (3):
+    redRightBlueRight(normalAuto, fastAuto);
+    break;
+  case (4):
+    winPoint(normalAuto, fastAuto);
+    break;
+  default:
+    noAuton();
   }
 }
 
