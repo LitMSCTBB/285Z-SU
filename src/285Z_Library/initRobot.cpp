@@ -15,18 +15,17 @@ ControllerButton rollerButton = ControllerDigital::right;
 ControllerButton endgameButton = ControllerDigital::R1;
 
 //drive motor points
-int rightFrontPort = 10; 
-int rightMiddlePort = 9;
+int rightFrontPort = 9; 
+int rightMiddlePort = 10;
 int rightBackPort = 8; 
 
-int leftFrontPort = -5;
-int leftMiddlePort = -6;
-int leftBackPort = -7;
+int leftFrontPort = -1;
+int leftMiddlePort = -2;
+int leftBackPort = -3;
 
-int intakePort = 1;
-int endgamePort = 18;
+int intakePort = 20;
 
-int flywheelPort = 2;
+int flywheelPort = 19;
 
 Motor rightFrontMotor(rightFrontPort);
 Motor rightMiddleMotor(rightMiddlePort);

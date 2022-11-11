@@ -7,7 +7,7 @@ class Flywheel {
 public:
   void spin();
   void shooter();
-  void pid();
+  void pid(int vel);
 };
 
 extern bool shooterRunning;
