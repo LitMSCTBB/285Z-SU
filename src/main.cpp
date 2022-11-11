@@ -95,6 +95,7 @@ void competition_initialize() {
 
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
+  indexer.set_value(true);
 
   pros::lcd::initialize();
 

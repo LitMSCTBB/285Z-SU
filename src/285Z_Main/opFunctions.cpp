@@ -5,23 +5,24 @@
 
 int endCount = 0;
 void endgame() {
-  endgameMotor.setBrakeMode(AbstractMotor::brakeMode::hold);
   if (endgameButton.isPressed()) {
     endCount++;
   }
   if (endCount == 4) {
-    endgameMotor.moveRelative(-90, 600);
+    eg.set_value(true);
+    eg.set_value(false);
+    eg.set_value(true);
+    eg.set_value(false);
   }
 }
 
-// void roller() {
-//   if (!shooterRunning) {
-//     if (rollerButton.isPressed()) {
-//       intakeMotor.move
-//     }
-//   }
-  
-// }
+void roller() {
+  if (!shooterRunning) {
+    if (rollerButton.isPressed()) {
+      intakeMotor.moveVelocity(400);
+    }
+  }
+}
 
 bool autSpinning = false;
 void autoSpin() {
@@ -34,16 +35,13 @@ void autoSpin() {
 }
 
 void autoShoot() {
-  intakeMotor.moveVelocity(-600);
-  indexerMotor.moveRelative(120, 150);
-  pros::delay(1500);
-  indexerMotor.moveRelative(120, 150);
-  pros::delay(1500);
-  indexerMotor.moveRelative(120, 150);
-  pros::delay(1500);
-  indexerMotor.moveRelative(120, 150);
-  pros::delay(1500);
-  intakeMotor.moveVelocity(0);
+  intakeMotor.moveVelocity(-400);
+  indexer.set_value(false);
+  indexer.set_value(true);
+  indexer.set_value(false);
+  indexer.set_value(true);
+  indexer.set_value(false);
+  indexer.set_value(true);
 }
 
 void move(std::shared_ptr<okapi::AsyncMotionProfileController> profile,

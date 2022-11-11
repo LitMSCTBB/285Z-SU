@@ -32,46 +32,23 @@ bool shooterRunning = false;
 
 void shooterProc(void* param) {
   // std::lock_guard<pros::Mutex> guard(mutex);
-  mutex.take();
-  shooterRunning = true;
-  intakeMotor.moveVoltage(-12000);
-  indexerMotor.moveRelative(120, 150);
-  pros::delay(1500);
-  indexerMotor.moveRelative(120, 150);
-  pros::delay(1500);
-  indexerMotor.moveRelative(120, 150);
-  pros::delay(1500);
-  intakeMotor.moveVoltage(0);
-  shooterRunning = false;
-  mutex.give();
+
 }
 
 void Flywheel::shooter() {
-  indexerMotor.setBrakeMode(AbstractMotor::brakeMode::hold);
+  intakeMotor.setBrakeMode(AbstractMotor::brakeMode::hold);
 
-  // if (indexerButton.isPressed()) {
-  //   indexerMotor.moveVelocity(120);
-  //   pros::delay(1200);
-  // }
   if (indexerButton.isPressed()) {
     if (!shooterRunning) {
-      pros::Task sp(shooterProc);
+      shooterRunning = true;
+      intakeMotor.moveVelocity(-400);
+      indexer.set_value(false);
+      indexer.set_value(true);
+      indexer.set_value(false);
+      indexer.set_value(true);
+      indexer.set_value(false);
+      indexer.set_value(true);
+      shooterRunning = false;
     }
-
-    // intakeMotor.moveVelocity(-600);
-    // indexerMotor.moveRelative(120, 150);
-    // pros::delay(1500);
-    // indexerMotor.moveRelative(120, 150);
-    // pros::delay(1500);
-    // indexerMotor.moveRelative(120, 150);
-    // pros::delay(1500);
-    // indexerMotor.moveRelative(120, 150);
-    // pros::delay(1500);
-    // intakeMotor.moveVelocity(0);
-
-    // intakeMotor.moveVoltage(-12000);
-    // pros::delay(1500);
-    // intakeMotor.moveVelocity(0);
-    // async controller or something
   }
 }

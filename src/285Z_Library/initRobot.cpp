@@ -6,10 +6,12 @@ okapi::Controller controller;
 
 //Controller Button
 ControllerButton intakeButton = ControllerDigital::Y;
+ControllerButton intakeStopButton = ControllerDigital::left;
 ControllerButton outtakeButton = ControllerDigital::B;
 ControllerButton flywheelFastButton = ControllerDigital::L1;
 ControllerButton flywheelSlowButton = ControllerDigital::L2;
 ControllerButton indexerButton = ControllerDigital::right;
+ControllerButton rollerButton = ControllerDigital::right;
 ControllerButton endgameButton = ControllerDigital::R1;
 
 //drive motor points
@@ -22,22 +24,20 @@ int leftMiddlePort = -6;
 int leftBackPort = -7;
 
 int intakePort = 1;
-int indexerPort = 20;
 int endgamePort = 18;
 
-int flywheelPort = 3;
+int flywheelPort = 2;
 
 Motor rightFrontMotor(rightFrontPort);
+Motor rightMiddleMotor(rightMiddlePort);
 Motor rightBackMotor(rightBackPort);
 
 Motor leftFrontMotor(leftFrontPort);
+Motor leftMiddleMotor(leftMiddlePort);
 Motor leftBackMotor(leftBackPort);
 
 pros::Mutex mutex;
 Motor intakeMotor(intakePort);
-Motor indexerMotor(indexerPort, false, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees);
-Motor endgameMotor(endgamePort, false, okapi::AbstractMotor::gearset::green,
-                   okapi::AbstractMotor::encoderUnits::degrees);
 
 Motor flywheelMotor(flywheelPort);
 

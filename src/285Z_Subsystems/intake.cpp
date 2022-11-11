@@ -20,15 +20,16 @@ void Intake::run() {
     }
     if (running) {
       intakeMotor.moveVoltage(12000);
-      mutex.give();
     } else if (reverse) {
       intakeMotor.moveVoltage(-12000);
-      mutex.give();
     } else {
-      // if (mutex.take() && mutex.give()) {
-
-      // }
       intakeMotor.moveVoltage(0);
     }
+  }
+}
+
+void Intake::stop() {
+  if (intakeStopButton.changedToPressed()) {
+    intakeMotor.moveVoltage(0);
   }
 }

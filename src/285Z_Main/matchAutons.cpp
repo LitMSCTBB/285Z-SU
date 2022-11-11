@@ -26,9 +26,9 @@ void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   // autoSpin(); // stops spinning
 
   move(med, 0.5_ft, bwd);
-  intakeMotor.moveVelocity(600);
+  intakeMotor.moveVoltage(12000);
   pros::delay(200);
-  intakeMotor.moveVelocity(0);
+  intakeMotor.moveVoltage(0);
 }
 
 

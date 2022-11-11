@@ -6,6 +6,7 @@ class Intake {
 
 public:
   void run();
+  void stop();
 };
 
 extern Intake in;
