@@ -13,5 +13,9 @@ void noAuton()
 void skillsAuto(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
+  move(fast, 2_ft, fwd);
+  turn(-45);
+  move(fast, 2_ft, bwd);
+  eg.set_value(true);
   pros::delay(15000);
 }
