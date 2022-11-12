@@ -11,8 +11,10 @@ ControllerButton outtakeButton = ControllerDigital::B;
 ControllerButton flywheelFastButton = ControllerDigital::L1;
 ControllerButton flywheelSlowButton = ControllerDigital::L2;
 ControllerButton indexerButton = ControllerDigital::right;
-ControllerButton rollerButton = ControllerDigital::right;
+// ControllerButton rollerButton = ControllerDigital::R2;
 ControllerButton endgameButton = ControllerDigital::R1;
+ControllerButton pistonButton = ControllerDigital::down;
+
 
 //drive motor points
 int rightFrontPort = 9; 

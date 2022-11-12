@@ -9,4 +9,7 @@ public:
   void stop();
 };
 
+extern bool running;
+extern bool reverse;
+
 extern Intake in;

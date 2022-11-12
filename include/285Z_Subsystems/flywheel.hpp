@@ -8,6 +8,7 @@ public:
   void spin();
   void shooter();
   void pid(int vel);
+  void piston();
 };
 
 extern bool shooterRunning;

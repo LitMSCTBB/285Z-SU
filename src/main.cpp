@@ -153,6 +153,7 @@ void opcontrol() {
     in.run();
     fw.spin();
     fw.shooter();
+    fw.piston();
     endgame();
     pros::delay(20);
   }

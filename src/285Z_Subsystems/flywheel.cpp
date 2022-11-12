@@ -82,26 +82,27 @@ void Flywheel::spin() {
 }
 
 bool shooterRunning = false;
-
-void shooterProc(void* param) {
-  // std::lock_guard<pros::Mutex> guard(mutex);
-
-}
-
 void Flywheel::shooter() {
   intakeMotor.setBrakeMode(AbstractMotor::brakeMode::hold);
 
-  if (indexerButton.isPressed()) {
+  if (indexerButton.changedToPressed()) {
     if (!shooterRunning) {
       shooterRunning = true;
+      running = false; reverse = false;
       intakeMotor.moveVelocity(-400);
       indexer.set_value(false);
+      pros::delay(500);
       indexer.set_value(true);
-      indexer.set_value(false);
-      indexer.set_value(true);
-      indexer.set_value(false);
-      indexer.set_value(true);
+      pros::delay(1500);
       shooterRunning = false;
     }
+  }
+}
+
+bool actuated = false;
+void Flywheel::piston() {
+  if (pistonButton.changedToPressed()) {
+    actuated = !actuated;
+    indexer.set_value(actuated);
   }
 }

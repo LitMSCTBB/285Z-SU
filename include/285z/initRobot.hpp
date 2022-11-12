@@ -13,6 +13,8 @@ extern ControllerButton flywheelSlowButton;
 extern ControllerButton indexerButton;
 extern ControllerButton rollerButton;
 extern ControllerButton endgameButton;
+extern ControllerButton pistonButton;
+
 
 // drive motor points
 extern int rightFrontPort;
