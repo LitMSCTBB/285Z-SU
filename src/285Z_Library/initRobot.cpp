@@ -8,15 +8,14 @@ okapi::Controller controller;
 ControllerButton intakeButton = ControllerDigital::Y;
 ControllerButton intakeStopButton = ControllerDigital::left;
 ControllerButton outtakeButton = ControllerDigital::B;
-ControllerButton flywheelFastButton = ControllerDigital::L1;
-ControllerButton flywheelSlowButton = ControllerDigital::L2;
+ControllerButton flywheelSlowButton = ControllerDigital::L1;
 ControllerButton indexerButton = ControllerDigital::right;
 // ControllerButton rollerButton = ControllerDigital::R2;
 ControllerButton endgameButton = ControllerDigital::R1;
 ControllerButton pistonButton = ControllerDigital::down;
+ControllerButton pistonOnceButton = ControllerDigital::L2;
 
-
-//drive motor points
+//drive motor ports
 int rightFrontPort = 9; 
 int rightMiddlePort = 10;
 int rightBackPort = 8; 

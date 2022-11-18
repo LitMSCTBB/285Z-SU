@@ -14,6 +14,7 @@ extern ControllerButton indexerButton;
 extern ControllerButton rollerButton;
 extern ControllerButton endgameButton;
 extern ControllerButton pistonButton;
+extern ControllerButton pistonOnceButton;
 
 
 // drive motor points

@@ -88,10 +88,10 @@ void disabled() {}
  */
 
 void competition_initialize() {
-  imuSensor.reset();
-  while (imuSensor.is_calibrating()) {
-    pros::delay(15);
-  }
+  // imuSensor.reset();
+  // while (imuSensor.is_calibrating()) {
+  //   pros::delay(15);
+  // }
 
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
@@ -154,6 +154,7 @@ void opcontrol() {
     fw.spin();
     fw.shooter();
     fw.piston();
+    fw.pistonOnce();
     endgame();
     pros::delay(20);
   }

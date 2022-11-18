@@ -9,6 +9,7 @@ public:
   void shooter();
   void pid(int vel);
   void piston();
+  void pistonOnce();
 };
 
 extern bool shooterRunning;

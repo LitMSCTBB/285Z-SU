@@ -66,15 +66,13 @@ void Flywheel::pid(int vel) {
 }
 
 void Flywheel::spin() {
-  if (flywheelFastButton.changedToPressed()) {
-    fastSpinning = !fastSpinning;
-  } else if (flywheelSlowButton.changedToPressed()) {
+  //if (flywheelFastButton.changedToPressed()) {
+    //fastSpinning = !fastSpinning;
+  if (flywheelSlowButton.changedToPressed()) {
     slowSpinning = !slowSpinning;
   }
-  if (fastSpinning) {
-    flywheelMotor.moveVelocity(2500);
-  } else if (slowSpinning) {
-    flywheelMotor.moveVelocity(1600);
+  if (slowSpinning) {
+    flywheelMotor.moveVelocity(400);
   } else {
     flywheelMotor.moveVelocity(0);
   }
@@ -90,9 +88,9 @@ void Flywheel::shooter() {
       shooterRunning = true;
       running = false; reverse = false;
       intakeMotor.moveVelocity(-400);
-      indexer.set_value(false);
-      pros::delay(500);
-      indexer.set_value(true);
+      // indexer.set_value(false);
+      // pros::delay(500);
+      // indexer.set_value(true);
       pros::delay(1500);
       shooterRunning = false;
     }
@@ -102,7 +100,14 @@ void Flywheel::shooter() {
 bool actuated = false;
 void Flywheel::piston() {
   if (pistonButton.changedToPressed()) {
-    actuated = !actuated;
-    indexer.set_value(actuated);
+    indexer.set_value(false);
+    pros::delay(500); 
+    indexer.set_value(true);
+  }
+}
+
+void Flywheel::pistonOnce() {
+  if (pistonOnceButton.changedToPressed()) {
+    indexer.set_value(true);
   }
 }
