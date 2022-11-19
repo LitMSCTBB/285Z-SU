@@ -2,17 +2,21 @@
 #include "../include/285z/initRobot.hpp"
 #include "../include/285z/initSensors.hpp"
 #include "285Z_Subsystems/flywheel.hpp"
+#include "pros/rtos.hpp"
 
 int endCount = 0;
 void endgame() {
   if (endgameButton.changedToPressed()) {
     endCount++;
-  }
-  if (endCount == 4) {
-    eg.set_value(true);
-    eg.set_value(false);
-    eg.set_value(true);
-    eg.set_value(false);
+    if (endCount == 2) {
+      for (int i=0; i<8; i++) {
+        eg.set_value(true);
+        pros::delay(500);
+        eg.set_value(false);
+        pros::delay(500);
+      }
+      eg.set_value(true);
+    }
   }
 }
 
