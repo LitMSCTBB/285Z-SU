@@ -4,8 +4,9 @@
 #include "../include/285Z_Subsystems/intake.hpp"
 
 // flywheel
-void autoSpin();
+void autoSpin(double speed);
 void autoShoot();
+void moveDrive(int amount);
 
 // intake
 void autoRun();

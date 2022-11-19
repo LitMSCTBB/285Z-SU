@@ -9,7 +9,7 @@ void endgame() {
   if (endgameButton.changedToPressed()) {
     endCount++;
     if (endCount == 2) {
-      for (int i=0; i<8; i++) {
+      for (int i=0; i<3; i++) {
         eg.set_value(true);
         pros::delay(500);
         eg.set_value(false);
@@ -18,6 +18,11 @@ void endgame() {
       eg.set_value(true);
     }
   }
+}
+
+void moveDrive(int amount) {
+  driveL.moveRelative(amount, 600);
+  driveR.moveRelative(amount, 600);
 }
 
 // void roller() {
@@ -29,23 +34,30 @@ void endgame() {
 // }
 
 bool autSpinning = false;
-void autoSpin() {
+void autoSpin(double speed) {
   autSpinning = !autSpinning;
   if (autSpinning) {
-    flywheelMotor.moveVelocity(400);
+    flywheelMotor.moveVelocity(speed);
   } else {
     flywheelMotor.moveVelocity(0);
   }
 }
 
 void autoShoot() {
-  intakeMotor.moveVelocity(-400);
+  intakeMotor.moveVoltage(-12000);
   indexer.set_value(false);
+  pros::delay(500);
   indexer.set_value(true);
+  pros::delay(1200);
   indexer.set_value(false);
+  pros::delay(500);
   indexer.set_value(true);
+  pros::delay(1200);
   indexer.set_value(false);
+  pros::delay(500);
   indexer.set_value(true);
+  pros::delay(500);
+  intakeMotor.moveVoltage(0);
 }
 
 void move(std::shared_ptr<okapi::AsyncMotionProfileController> profile,

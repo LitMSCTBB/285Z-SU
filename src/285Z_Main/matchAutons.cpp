@@ -12,52 +12,44 @@
 void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
-  // turn(15);
-  // PIDchassis->moveDistance(-0.5_ft);
-  // turn(-15);
-
-  // // roller spin
-
-  // turn(-15);
-  // autoSpin();
-  // autoShoot();
-  // pros::delay(5000);
-  // autoShoot();
-  // autoSpin(); // stops spinning
-
-  move(med, 0.5_ft, bwd);
+  // move(med, 0.005_ft, bwd);
+  moveDrive(-100);
   intakeMotor.moveVoltage(12000);
   pros::delay(200);
   intakeMotor.moveVoltage(0);
   
-  move(med, 0.5_ft, fwd);
-  autoSpin();
-  turn(90);
-  pros::delay(2000);
+  // turn(15);
+  moveDrive(30);
+  autoSpin(300);
+  turn(100);
   autoShoot();
+  autoSpin(300);
+
+  // for 3 stack
+  // intakeMotor.moveVoltage(11000);
+  // turn(45);
+  // move(fast, 4_ft, fwd);
+  // intakeMotor.moveVoltage(0);
+  // turn(55);
+  // autoShoot();
+  // autoSpin(400); // turns off fw
 }
-
-
 
 void redRightBlueRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
-
-  turn(90);
-  PIDchassis->moveDistance(2_ft);
-  turn(-90);
+  autoSpin(50);
+  pros::delay(2000);
+  autoShoot();
+  autoSpin(50);
   
-  // roller spin
-
-  turn(15);
-  autoSpin();
-  autoShoot();
-  pros::delay(5000);
-  autoShoot();
-  autoSpin(); // stops spinning
+  moveDrive(-100);
+  turn(90);
+  moveDrive(-10);
+  intakeMotor.moveVoltage(12000);
+  pros::delay(200);
+  intakeMotor.moveVoltage(0);
 }
-
-
 
 void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
@@ -79,9 +71,9 @@ void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   // roller spin
 
   turn(15);
-  autoSpin();
+  autoSpin(200);
   autoShoot();
   pros::delay(5000);
   autoShoot();
-  autoSpin(); // stops spinning
+  autoSpin(200); // stops spinning
 }

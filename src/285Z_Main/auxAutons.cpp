@@ -31,5 +31,4 @@ void skillsAuto(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   pros::delay(500);
   eg.set_value(true);
   pros::delay(500);
-  pros::delay(15000);
 }

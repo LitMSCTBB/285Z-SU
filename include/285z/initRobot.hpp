@@ -44,4 +44,3 @@ extern MotorGroup driveL;
 extern MotorGroup driveR;
 
 extern std::shared_ptr<okapi::ChassisController> PIDchassis;
-extern std::shared_ptr<okapi::ChassisController> PIDchassisGoal;

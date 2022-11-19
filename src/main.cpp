@@ -35,6 +35,23 @@ std::shared_ptr<ChassisController> chassis =
 std::shared_ptr<okapi::ChassisModel> model =
     std::dynamic_pointer_cast<okapi::ChassisModel>(chassis->getModel());
 
+std::shared_ptr<okapi::ChassisController> PIDchassis =
+    okapi::ChassisControllerBuilder()
+        .withMotors(driveL, driveR)
+        .withDimensions({AbstractMotor::gearset::blue, (60.0 / 36.0)},
+                        {{3.25_in, 11.42_in}, imev5BlueTPR})
+        .withMaxVoltage(12000)
+        .withGains({0.3, 0.0, 0.00005}, // Distance controller gains
+                   {0.0, 0.0, 0.0},      // Turn controller gains
+                   {0.0, 0, 0.0}
+                   // Angle controller gains (helps drive straight)
+                   )
+        .withClosedLoopControllerTimeUtil(50, 5, 250_ms)
+        .withDerivativeFilters(
+            std::make_unique<AverageFilter<3>>() // Distance controller filter
+            )
+        .build();
+
 std::shared_ptr<okapi::AsyncMotionProfileController> fastAuto =
     AsyncMotionProfileControllerBuilder()
         .withLimits({
@@ -42,7 +59,7 @@ std::shared_ptr<okapi::AsyncMotionProfileController> fastAuto =
             9,   // max linear acceleration in m/s^2
             18.0 // max linear jerk in m/s^3
         })
-        .withOutput(chassis)
+        .withOutput(PIDchassis)
         .buildMotionProfileController();
 
 std::shared_ptr<okapi::AsyncMotionProfileController> normalAuto =
@@ -52,25 +69,8 @@ std::shared_ptr<okapi::AsyncMotionProfileController> normalAuto =
             1.5, // max linear acceleration in m/s^2
             3.5  // max linear jerk in m/s^3
         })
-        .withOutput(chassis)
+        .withOutput(PIDchassis)
         .buildMotionProfileController();
-
-std::shared_ptr<okapi::ChassisController> PIDchassis =
-    okapi::ChassisControllerBuilder()
-        .withMotors(driveL, driveR)
-        .withDimensions({AbstractMotor::gearset::blue, (60.0 / 36.0)},
-                        {{3.25_in, 14.5_in}, imev5BlueTPR})
-        .withMaxVoltage(12000)
-        .withGains({0.00191, 0.0, 0.00005}, // Distance controller gains
-                   {0.001, 0, 0.0001},      // Turn controller gains
-                   {0.001, 0, 0.0001}
-                   // Angle controller gains (helps drive straight)
-                   )
-        .withClosedLoopControllerTimeUtil(50, 5, 250_ms)
-        .withDerivativeFilters(
-            std::make_unique<AverageFilter<3>>() // Distance controller filter
-            )
-        .build();
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -80,6 +80,7 @@ std::shared_ptr<okapi::ChassisController> PIDchassis =
  */
 void initialize() {
   pros::lcd::initialize();
+  indexer.set_value(true);
 
   sylib::initialize();
 }
@@ -108,7 +109,7 @@ void competition_initialize() {
 
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
-  // indexer.set_value(true);
+  indexer.set_value(true);
 
   pros::lcd::set_text(6, "// CALIBRATION COMPLETE //");
 

@@ -2,5 +2,5 @@
 
 pros::ADIDigitalOut indexer('G');
 pros::ADIDigitalOut eg('H');
-pros::Imu imuSensor(19);
+pros::Imu imuSensor(11);
 pros::ADIDigitalIn autonSelector('B');
