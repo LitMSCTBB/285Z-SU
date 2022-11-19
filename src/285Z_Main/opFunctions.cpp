@@ -5,7 +5,7 @@
 
 int endCount = 0;
 void endgame() {
-  if (endgameButton.isPressed()) {
+  if (endgameButton.changedToPressed()) {
     endCount++;
   }
   if (endCount == 4) {
@@ -16,19 +16,19 @@ void endgame() {
   }
 }
 
-void roller() {
-  if (!shooterRunning) {
-    if (rollerButton.isPressed()) {
-      intakeMotor.moveVelocity(400);
-    }
-  }
-}
+// void roller() {
+//   if (!shooterRunning) {
+//     if (rollerButton.isPressed()) {
+//       intakeMotor.moveVelocity(400);
+//     }
+//   }
+// }
 
 bool autSpinning = false;
 void autoSpin() {
   autSpinning = !autSpinning;
   if (autSpinning) {
-    flywheelMotor.moveVelocity(3600);
+    flywheelMotor.moveVelocity(400);
   } else {
     flywheelMotor.moveVelocity(0);
   }

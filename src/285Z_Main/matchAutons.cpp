@@ -29,6 +29,12 @@ void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   intakeMotor.moveVoltage(12000);
   pros::delay(200);
   intakeMotor.moveVoltage(0);
+  
+  move(med, 0.5_ft, fwd);
+  autoSpin();
+  turn(90);
+  pros::delay(2000);
+  autoShoot();
 }
 
 

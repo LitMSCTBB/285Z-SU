@@ -6,6 +6,7 @@
 #include "../include/285Z_Subsystems/intake.hpp"
 #include "../include/285Z_Subsystems/flywheel.hpp"
 #include "main.h"
+#include "sylib/system.hpp"
 
 Intake in;
 Flywheel fw;
@@ -88,6 +89,8 @@ void disabled() {}
  */
 
 void competition_initialize() {
+  sylib::initialize();
+  
   imuSensor.reset();
   while (imuSensor.is_calibrating()) {
     pros::delay(15);
@@ -95,7 +98,8 @@ void competition_initialize() {
 
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
-  indexer.set_value(true);
+  flywheelMotor.setBrakeMode(AbstractMotor::brakeMode::coast);
+  // indexer.set_value(true);
 
   pros::lcd::initialize();
 
@@ -138,9 +142,13 @@ void autonomous() {
 }
 
 void opcontrol() {
-
-  driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
+  driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
+
+  indexer.set_value(true);
+  pros::Task pidTask{[=]{
+    fw.pid();
+  }};
 
   while (1) {
 
@@ -153,7 +161,7 @@ void opcontrol() {
     in.run();
     fw.spin();
     fw.shooter();
-    fw.piston();
+    fw.pistonOnce();
     endgame();
     pros::delay(20);
   }

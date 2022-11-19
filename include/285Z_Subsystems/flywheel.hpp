@@ -7,10 +7,11 @@ class Flywheel {
 public:
   void spin();
   void shooter();
-  void pid(int vel);
-  void piston();
+  void pid();
+  void pistonOnce();
 };
 
 extern bool shooterRunning;
+extern std::atomic<double> target;
 
 extern Flywheel fw;

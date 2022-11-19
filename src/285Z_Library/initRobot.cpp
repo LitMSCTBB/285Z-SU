@@ -1,4 +1,5 @@
 #include "../include/285z/initRobot.hpp"
+#include "okapi/impl/device/button/controllerButton.hpp"
 #include "okapi/impl/device/controllerUtil.hpp"
 #include "pros/rtos.hpp"
 
@@ -8,13 +9,11 @@ okapi::Controller controller;
 ControllerButton intakeButton = ControllerDigital::Y;
 ControllerButton intakeStopButton = ControllerDigital::left;
 ControllerButton outtakeButton = ControllerDigital::B;
-ControllerButton flywheelFastButton = ControllerDigital::L1;
-ControllerButton flywheelSlowButton = ControllerDigital::L2;
-ControllerButton indexerButton = ControllerDigital::right;
+ControllerButton flywheelButton = ControllerDigital::L1;
 // ControllerButton rollerButton = ControllerDigital::R2;
 ControllerButton endgameButton = ControllerDigital::R1;
-ControllerButton pistonButton = ControllerDigital::down;
-
+ControllerButton indexerButton = ControllerDigital::right;
+ControllerButton pistonOnceButton = ControllerDigital::L2;
 
 //drive motor points
 int rightFrontPort = 9; 
@@ -37,7 +36,6 @@ Motor leftFrontMotor(leftFrontPort);
 Motor leftMiddleMotor(leftMiddlePort);
 Motor leftBackMotor(leftBackPort);
 
-pros::Mutex mutex;
 Motor intakeMotor(intakePort);
 
 Motor flywheelMotor(flywheelPort);
