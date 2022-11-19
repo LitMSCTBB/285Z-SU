@@ -6,26 +6,27 @@
 #include "pid.hpp"
 #include "pros/rtos.h"
 #include "pros/rtos.hpp"
+#include "sylib/motor.hpp"
 
 bool spinning = false;
-bool pidRunning = false;
 int dc = 0;
 
-const double FLYWHEEL_kP = 10.0;
+// auto fwSyl = sylib::Motor(19, 3600);
+
+const double FLYWHEEL_kP = 5.0;
 const double FLYWHEEL_kI = 0.0;
 const double FLYWHEEL_kD = 0.0;
 const double kF = 3.3333;
+double currVoltage = 0;
 std::atomic<double> target;
 
 void Flywheel::pid() {
-  double currVoltage = 0;
   double error, oldError, sumError;
   while (true) {
     if (target.load() != 0) {
-      double sensorValue = flywheelMotor.getActualVelocity();
+      double sensorValue = 400;
+      // double sensorValue = fwSyl.get_velocity();
       double speedTarget = target.load();
-
-      // printf("%f %f", vI, vF);
 
       if (dc % 50 == 0) printf("%f %f\n", sensorValue, speedTarget);
 
@@ -65,14 +66,15 @@ void Flywheel::spin() {
     spinning = !spinning;
   }
   if (spinning) {
-    target.store(400);
-    // flywheelMotor.moveVelocity(400);
+    // target.store(3600);
+    flywheelMotor.moveVelocity(400);
     dc++;
   } else {
-    target.store(0);
+    // target.store(0);
+    currVoltage = 0;
     flywheelMotor.moveVoltage(0);
   }
-  if (dc % 50 == 0) printf("%f %f %d\n", target.load(), flywheelMotor.getActualVelocity(), dc);
+  // if (dc % 50 == 0) printf("%f %f %f %d\n", target.load(), flywheelMotor.getActualVelocity(), fwSyl.get_velocity(), dc);
 }
 
 bool shooterRunning = false;

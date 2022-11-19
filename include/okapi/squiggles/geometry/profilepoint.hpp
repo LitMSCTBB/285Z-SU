@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "controlvector.hpp"
-#include "../math/utils.hpp"
+#include "math/utils.hpp"
 
 namespace squiggles {
 struct ProfilePoint {

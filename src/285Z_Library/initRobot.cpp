@@ -8,7 +8,7 @@ okapi::Controller controller;
 //Controller Button
 ControllerButton intakeButton = ControllerDigital::Y;
 ControllerButton intakeStopButton = ControllerDigital::left;
-ControllerButton outtakeButton = ControllerDigital::B;
+ControllerButton outtakeButton = ControllerDigital::R2;
 ControllerButton flywheelButton = ControllerDigital::L1;
 // ControllerButton rollerButton = ControllerDigital::R2;
 ControllerButton endgameButton = ControllerDigital::R1;
