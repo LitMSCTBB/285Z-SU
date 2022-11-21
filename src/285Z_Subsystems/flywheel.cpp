@@ -67,7 +67,7 @@ void Flywheel::spin() {
   }
   if (spinning) {
     // target.store(3600);
-    flywheelMotor.moveVelocity(300);
+    flywheelMotor.moveVelocity(200);
     dc++;
   } else {
     // target.store(0);

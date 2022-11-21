@@ -13,17 +13,17 @@ void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
   // move(med, 0.005_ft, bwd);
-  moveDrive(-100);
+  autoSpin(90);
+  moveDrive(-30);
   intakeMotor.moveVoltage(12000);
-  pros::delay(200);
+  pros::delay(150);
   intakeMotor.moveVoltage(0);
   
-  // turn(15);
+  pros::delay(500);
   moveDrive(30);
-  autoSpin(300);
-  turn(100);
+  turn(105);
   autoShoot();
-  autoSpin(300);
+  autoSpin(90);
 
   // for 3 stack
   // intakeMotor.moveVoltage(11000);
@@ -38,14 +38,15 @@ void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
 void redRightBlueRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
-  autoSpin(50);
+  autoSpin(75);
   pros::delay(2000);
   autoShoot();
-  autoSpin(50);
+  autoSpin(75);
   
-  moveDrive(-100);
+  move(fast, -2_ft, bwd);
   turn(90);
-  moveDrive(-10);
+  move(med, -0.00000000005_ft, bwd);
+  // moveDrive(-300);
   intakeMotor.moveVoltage(12000);
   pros::delay(200);
   intakeMotor.moveVoltage(0);

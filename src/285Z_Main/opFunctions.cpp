@@ -23,6 +23,8 @@ void endgame() {
 void moveDrive(int amount) {
   driveL.moveRelative(amount, 600);
   driveR.moveRelative(amount, 600);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
 }
 
 // void roller() {
@@ -48,15 +50,11 @@ void autoShoot() {
   indexer.set_value(false);
   pros::delay(500);
   indexer.set_value(true);
-  pros::delay(1200);
+  pros::delay(2000);
   indexer.set_value(false);
   pros::delay(500);
   indexer.set_value(true);
-  pros::delay(1200);
-  indexer.set_value(false);
-  pros::delay(500);
-  indexer.set_value(true);
-  pros::delay(500);
+  pros::delay(2000);
   intakeMotor.moveVoltage(0);
 }
 
