@@ -13,10 +13,10 @@ int dc = 0;
 
 // auto fwSyl = sylib::Motor(19, 3600);
 
-const double FLYWHEEL_kP = 5.0;
+const double FLYWHEEL_kP = 0.5;
 const double FLYWHEEL_kI = 0.0;
-const double FLYWHEEL_kD = 0.0;
-const double kF = 3.3333;
+const double FLYWHEEL_kD = 0.55;
+const double kF = 3.333;
 double currVoltage = 0;
 std::atomic<double> target;
 

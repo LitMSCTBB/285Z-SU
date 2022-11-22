@@ -9,10 +9,9 @@
 //***************************** RED/BLUE AUTONOMOUS PROGRAMS **********************//
 
 
-void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+void leftLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
-
   move(med, 0.00000000000000000000000000000000000000000000000000000000000000000000005_ft, bwd);
   autoSpin(90);
   moveDrive(-30);
@@ -36,7 +35,22 @@ void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   // autoSpin(400); // turns off fw
 }
 
-void redRightBlueRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+  std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
+  turn(-15);
+  autoSpin(150);
+  pros::delay(2000);
+  autoShoot();
+  autoSpin(150);
+
+  move(med, 0.00000000000000000000000000000000000000000000000000000000000000000000005_ft, bwd);
+  moveDrive(-30);
+  intakeMotor.moveVoltage(12000);
+  pros::delay(150);
+  intakeMotor.moveVoltage(0);
+}
+
+void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
   autoSpin(75);
@@ -48,6 +62,37 @@ void redRightBlueRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   turn(90);
   pros::delay(1000);
   move(fast, -.000000001_ft, bwd);
+  intakeMotor.moveVoltage(12000);
+  pros::delay(200);
+  intakeMotor.moveVoltage(0);
+}
+
+void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+  std::shared_ptr<okapi::AsyncMotionProfileController> fast)
+{
+  autoSpin(130);
+  turn(23);
+  pros::delay(2500);
+  
+  intakeMotor.moveVoltage(-12000);
+  indexer.set_value(false);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(2000); // Delay
+  indexer.set_value(false);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(400);
+  intakeMotor.moveVoltage(0);
+
+  // autoSpin(125);
+  // pros::delay(1000);
+  // indexer.set_value(true);
+  
+
+  move(fast, 1.5_ft, fwd);
+  turn(270);
+  move(med,1.2_ft, bwd);
   intakeMotor.moveVoltage(12000);
   pros::delay(200);
   intakeMotor.moveVoltage(0);

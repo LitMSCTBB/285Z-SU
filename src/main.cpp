@@ -15,8 +15,10 @@ int autoIndex = 0;
 
 std::string autList[] = {"No Auton",
                          "Skills Auton",
-                         "Left Side Winpoint",
-                         "Right Side Winpoint",
+                         "Left Low",
+                         "Left High",
+                         "Right Low",
+                         "Right High",
                          "Full Winpoint",
                         };
 
@@ -147,12 +149,18 @@ void autonomous() {
     skillsAuto(normalAuto, fastAuto);
     break;
   case (2):
-    redLeftBlueLeft(normalAuto, fastAuto);
+    leftLow(normalAuto, fastAuto);
     break;
   case (3):
-    redRightBlueRight(normalAuto, fastAuto);
+    leftHigh(normalAuto, fastAuto);
     break;
   case (4):
+    rightLow(normalAuto, fastAuto);
+    break;
+  case (5):
+    rightHigh(normalAuto, fastAuto);
+    break;
+  case (6):
     winPoint(normalAuto, fastAuto);
     break;
   default:

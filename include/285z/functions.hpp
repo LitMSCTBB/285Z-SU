@@ -19,10 +19,16 @@ void noAuton();
 void skillsAuto(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 
-void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+void leftLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 
-void redRightBlueRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+  std::shared_ptr<okapi::AsyncMotionProfileController> fast);
+
+void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+  std::shared_ptr<okapi::AsyncMotionProfileController> fast);
+
+void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 
 void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,
