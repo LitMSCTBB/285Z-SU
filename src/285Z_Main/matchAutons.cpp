@@ -72,7 +72,7 @@ void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
 {
   autoSpin(130);
   turn(23);
-  pros::delay(2500);
+  pros::delay(3500);
   
   intakeMotor.moveVoltage(-12000);
   indexer.set_value(false);
@@ -91,7 +91,7 @@ void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   
 
   move(fast, 1.5_ft, fwd);
-  turn(270);
+  turn(300);
   move(med,1.2_ft, bwd);
   intakeMotor.moveVoltage(12000);
   pros::delay(200);
