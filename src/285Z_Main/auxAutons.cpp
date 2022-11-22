@@ -13,22 +13,39 @@ void noAuton()
 void skillsAuto(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
-  move(med, 0.5_ft, bwd);
+  imuSensor.reset();
+  // moveDrive(30);
+  // pros::delay(350);
+  move(med,0.5_ft , bwd);
+  // autoSpin(-180);
+  // moveDrive(-30);
   intakeMotor.moveVoltage(12000);
-  pros::delay(400);
+  pros::delay(500);
   intakeMotor.moveVoltage(0);
-
-  move(fast, 2_ft, fwd);
-  turn(-45);
-  move(fast, 2_ft, bwd);
+  move(med, 1_ft, fwd);
+  turn(80);
+  move(med, 1.5_ft, bwd);
+   intakeMotor.moveVoltage(12000);
+  pros::delay(9000);
+  intakeMotor.moveVoltage(0);
+  move(med, 1_ft, fwd);
+  turn(50);
+  move(med, 1_ft, bwd);
+  for (int i=0; i<3; i++) {
+          eg.set_value(true);
+          pros::delay(500);
+          eg.set_value(false);
+          pros::delay(500);
+        }
   eg.set_value(true);
-  pros::delay(500);
-  eg.set_value(false);
-  pros::delay(500);
-  eg.set_value(true);
-  pros::delay(500);
-  eg.set_value(false);
-  pros::delay(500);
-  eg.set_value(true);
-  pros::delay(500);
+  //eg.set_value(true);
+ // pros::delay(500);
+  //eg.set_value(false);
+  //pros::delay(500);
+  //eg.set_value(true);
+  //pros::delay(500);
+  //eg.set_value(false);
+  //pros::delay(500);
+  //eg.set_value(true);
+  //pros::delay(500);
 }

@@ -12,7 +12,8 @@
 void redLeftBlueLeft(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
-  // move(med, 0.005_ft, bwd);
+
+  move(med, 0.00000000000000000000000000000000000000000000000000000000000000000000005_ft, bwd);
   autoSpin(90);
   moveDrive(-30);
   intakeMotor.moveVoltage(12000);
@@ -43,10 +44,10 @@ void redRightBlueRight(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   autoShoot();
   autoSpin(75);
   
-  move(fast, -2_ft, bwd);
+  move(fast, -1.5_ft, bwd);
   turn(90);
-  move(med, -0.00000000005_ft, bwd);
-  // moveDrive(-300);
+  pros::delay(1000);
+  move(fast, -.000000001_ft, bwd);
   intakeMotor.moveVoltage(12000);
   pros::delay(200);
   intakeMotor.moveVoltage(0);
