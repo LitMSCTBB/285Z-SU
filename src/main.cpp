@@ -13,14 +13,10 @@ Flywheel fw;
 
 int autoIndex = 0;
 
-std::string autList[] = {"No Auton",
-                         "Skills Auton",
-                         "Left Low",
-                         "Left High",
-                         "Right Low",
-                         "Right High",
-                         "Full Winpoint",
-                        };
+std::string autList[] = {
+    "No Auton",  "Skills Auton", "Left Low",   "Left High",
+    "Right Low", "Right High 3 Discs", "Full Winpoint",
+};
 
 int len = sizeof(autList) / sizeof(autList[0]);
 
@@ -103,7 +99,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {  
+void competition_initialize() {
   imuSensor.reset();
   while (imuSensor.is_calibrating()) {
     pros::delay(15);
@@ -158,7 +154,7 @@ void autonomous() {
     rightLow(normalAuto, fastAuto);
     break;
   case (5):
-    rightHigh(normalAuto, fastAuto);
+    rightHigh3(normalAuto, fastAuto);
     break;
   case (6):
     winPoint(normalAuto, fastAuto);

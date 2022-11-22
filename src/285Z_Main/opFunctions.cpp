@@ -23,8 +23,6 @@ void endgame() {
 void moveDrive(int amount) {
   driveL.moveRelative(amount, 600);
   driveR.moveRelative(amount, 600);
-  driveL.moveVoltage(0);
-  driveR.moveVoltage(0);
 }
 
 // void roller() {

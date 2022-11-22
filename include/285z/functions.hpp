@@ -31,6 +31,9 @@ void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
 void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 
+void rightHigh3(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+  std::shared_ptr<okapi::AsyncMotionProfileController> fast);
+
 void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 
