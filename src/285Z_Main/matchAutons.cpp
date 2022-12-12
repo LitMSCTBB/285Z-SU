@@ -12,31 +12,66 @@
 void leftLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast)
 {
-  move(med, 0.00000000000000000000000000000000000000000000000000000000000000000000005_ft, bwd);
-  autoSpin(90);
-  moveDrive(-30);
-  intakeMotor.moveVoltage(12000);
-  pros::delay(150);
-  intakeMotor.moveVoltage(0);
+  // autoSpin(90);
+  // intakeMotor.moveVoltage(12000);
+  // moveDrive(0.2, false);
+  // pros::delay(200);
+  // intakeMotor.moveVoltage(0);
+  // pros::delay(500);
   
-  pros::delay(500);
-  moveDrive(30);
-  turn(105);
-  autoShoot();
-  autoSpin(90);
+  // autoShoot();
+  // autoSpin(90);
+
+  // turn(-340);
+  // moveDrive(-0.2, false);
+  // turn(20);
+  // moveDrive(-0.2, false);
+
+  // intakeMotor.moveVoltage(12000);
+  // pros::delay(200);
+  // intakeMotor.moveVoltage(0);
 }
 
 void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-  autoSpin(128);
-  pros::delay(6000);
-  autoShoot();
-  autoSpin(128);
-
-  move(med, 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_ft, bwd);
+  autoSpin(129);
+  // moveDrive(-0.25, false);
+  driveL.moveRelative(-0.25 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
+  driveR.moveRelative(-0.25 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
+  pros::delay(100);
   intakeMotor.moveVoltage(12000);
-  pros::delay(150);
-  intakeMotor.moveVoltage(0); 
+  pros::delay(200);
+  intakeMotor.moveVoltage(0);
+
+  pros::delay(200);
+
+  moveDrive(0.25, false);
+  turn(315);
+  intakeMotor.moveVoltage(12000);
+  moveDrive(0.5, false);
+  pros::delay(800);
+  intakeMotor.moveVoltage(0);
+
+  driveL.moveRelative(-0.4 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
+  driveR.moveRelative(-0.4 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
+  pros::delay(600);
+  turn(355.5);
+
+  pros::delay(2500);
+
+  intakeMotor.moveVoltage(-12000);
+  indexer.set_value(false);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(2000);
+  indexer.set_value(false);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(2000);
+  indexer.set_value(false);
+  pros::delay(1000);
+  intakeMotor.moveVoltage(0);
+  autoSpin(129);
 }
 
 void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
@@ -67,7 +102,7 @@ void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   indexer.set_value(false);
   pros::delay(500);
   indexer.set_value(true);
-  pros::delay(2000); // Delay
+  pros::delay(2000);
   indexer.set_value(false);
   pros::delay(1000);
   indexer.set_value(true);
@@ -99,7 +134,7 @@ void rightHigh3(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   indexer.set_value(false);
   pros::delay(500);
   indexer.set_value(true);
-  pros::delay(2000); // Delay
+  pros::delay(2000);
   indexer.set_value(false);
   pros::delay(500);
   indexer.set_value(true);

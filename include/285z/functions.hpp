@@ -6,7 +6,7 @@
 // flywheel
 void autoSpin(double speed);
 void autoShoot();
-void moveDrive(int amount);
+void moveDrive(double amount, bool fast);
 
 // intake
 void autoRun();
@@ -15,7 +15,8 @@ void autoRun();
 void endgame();
 
 //   **AUTON FUNCTIONS**    //
-void noAuton();
+void noAuton(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+             std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 void skillsAuto(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   std::shared_ptr<okapi::AsyncMotionProfileController> fast);
 

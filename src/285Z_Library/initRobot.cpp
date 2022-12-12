@@ -1,4 +1,7 @@
 #include "../include/285z/initRobot.hpp"
+#include "okapi/api/device/motor/abstractMotor.hpp"
+#include "okapi/api/util/logging.hpp"
+#include "okapi/api/util/mathUtil.hpp"
 #include "okapi/impl/device/button/controllerButton.hpp"
 #include "okapi/impl/device/controllerUtil.hpp"
 #include "pros/rtos.hpp"
@@ -28,13 +31,25 @@ int intakePort = 20;
 
 int flywheelPort = 19;
 
-Motor rightFrontMotor(rightFrontPort);
-Motor rightMiddleMotor(rightMiddlePort);
-Motor rightBackMotor(rightBackPort);
+Motor rightFrontMotor(rightFrontPort, false, AbstractMotor::gearset::blue,
+                      AbstractMotor::encoderUnits::degrees,
+                      Logger::getDefaultLogger());
+Motor rightMiddleMotor(rightMiddlePort, false, AbstractMotor::gearset::blue,
+                       AbstractMotor::encoderUnits::degrees,
+                       Logger::getDefaultLogger());
+Motor rightBackMotor(rightBackPort, false, AbstractMotor::gearset::blue,
+                     AbstractMotor::encoderUnits::degrees,
+                     Logger::getDefaultLogger());
 
-Motor leftFrontMotor(leftFrontPort);
-Motor leftMiddleMotor(leftMiddlePort);
-Motor leftBackMotor(leftBackPort);
+Motor leftFrontMotor(leftFrontPort, false, AbstractMotor::gearset::blue,
+                     AbstractMotor::encoderUnits::degrees,
+                     Logger::getDefaultLogger());
+Motor leftMiddleMotor(leftMiddlePort, false, AbstractMotor::gearset::blue,
+                      AbstractMotor::encoderUnits::degrees,
+                      Logger::getDefaultLogger());
+Motor leftBackMotor(leftBackPort, false, AbstractMotor::gearset::blue,
+                    AbstractMotor::encoderUnits::degrees,
+                    Logger::getDefaultLogger());
 
 Motor intakeMotor(intakePort);
 

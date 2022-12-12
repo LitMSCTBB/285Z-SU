@@ -139,7 +139,7 @@ void competition_initialize() {
 void autonomous() {
   switch (autoIndex) {
   case (0):
-    noAuton();
+    noAuton(normalAuto, fastAuto);
     break;
   case (1):
     skillsAuto(normalAuto, fastAuto);
@@ -160,7 +160,7 @@ void autonomous() {
     winPoint(normalAuto, fastAuto);
     break;
   default:
-    noAuton();
+    noAuton(normalAuto, fastAuto);
   }
 }
 

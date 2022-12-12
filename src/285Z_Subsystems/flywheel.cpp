@@ -67,7 +67,7 @@ void Flywheel::spin() {
   }
   if (spinning) {
     // target.store(3600);
-    flywheelMotor.moveVelocity(100);
+    flywheelMotor.moveVelocity(93);
     dc++;
   } else {
     // target.store(0);
@@ -85,9 +85,9 @@ void Flywheel::shooter() {
         if (!shooterRunning) {
           shooterRunning = true;
           indexer.set_value(false);
-          pros::delay(500);
+          pros::delay(350);
           indexer.set_value(true);
-          pros::delay(500);
+          pros::delay(50);
           shooterRunning = false;
         }
       }

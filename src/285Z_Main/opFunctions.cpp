@@ -2,6 +2,7 @@
 #include "../include/285z/initRobot.hpp"
 #include "../include/285z/initSensors.hpp"
 #include "285Z_Subsystems/flywheel.hpp"
+#include "okapi/api/util/mathUtil.hpp"
 #include "pros/rtos.hpp"
 
 int endCount = 0;
@@ -20,18 +21,15 @@ void endgame() {
   }
 }
 
-void moveDrive(int amount) {
-  driveL.moveRelative(amount, 600);
-  driveR.moveRelative(amount, 600);
+// amount is in feet
+void moveDrive(double amount, bool fast) {
+  double ab = abs(amount);
+  double dir = amount / ab;
+  int speed = 300;
+  if (fast) speed = 600;
+  driveL.moveRelative(dir * amount * 12 / (3.25 * pi) * 360 * 5 / 3, speed);
+  driveR.moveRelative(dir * amount * 12 / (3.25 * pi) * 360 * 5 / 3, speed);
 }
-
-// void roller() {
-//   if (!shooterRunning) {
-//     if (rollerButton.isPressed()) {
-//       intakeMotor.moveVelocity(400);
-//     }
-//   }
-// }
 
 bool autSpinning = false;
 void autoSpin(double speed) {
