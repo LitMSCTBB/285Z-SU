@@ -57,15 +57,15 @@ void Flywheel::spin() {
     printf("AYYEEEEE WFG");
   }
   if (spinning) {
-    target = 2400;
-    // pros::Task {
-    //   [=] {
-    //     pid();
-    //   }
-    // };
-    dc++;
+    // target = 2400;
+    // // pros::Task {
+    // //   [=] {
+    // //     pid();
+    // //   }
+    // // };
+    // dc++;
 
-    // flywheelMotor.moveVelocity(93);
+    flywheelMotor.moveVelocity(93);
   } else {
     target = 0;
     currVoltage = 0;
