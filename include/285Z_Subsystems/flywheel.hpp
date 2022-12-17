@@ -12,6 +12,6 @@ public:
 };
 
 extern bool shooterRunning;
-extern std::atomic<double> target;
+extern double target;
 
 extern Flywheel fw;

@@ -71,7 +71,7 @@ void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   indexer.set_value(false);
   pros::delay(1000);
   intakeMotor.moveVoltage(0);
-  autoSpin(129);
+  autoSpin();
 }
 
 void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
@@ -92,43 +92,15 @@ void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
 }
 
 void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-  std::shared_ptr<okapi::AsyncMotionProfileController> fast)
-{
-  autoSpin(133.5);
-  turn(22.5);
-  pros::delay(4300);
-  
-  intakeMotor.moveVoltage(-12000);
-  indexer.set_value(false);
-  pros::delay(500);
-  indexer.set_value(true);
-  pros::delay(2000);
-  indexer.set_value(false);
-  pros::delay(1000);
-  indexer.set_value(true);
-  pros::delay(400);
-  intakeMotor.moveVoltage(0);
-
-  move(fast, 1.5_ft, fwd);
-  turn(330);
-  move(fast, 0.4_ft, bwd);
-  turn(2.5);
-  intakeMotor.moveVoltage(12000);
-  pros::delay(200);
-  intakeMotor.moveVoltage(0);
-  autoSpin(133.5);
-}
-
-void rightHigh3(std::shared_ptr<okapi::AsyncMotionProfileController> med,
                 std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-  autoSpin(128);
-  intakeMotor.moveVoltage(7000);
-  // turn(355);
+  autoSpin(131);
+  intakeMotor.moveVoltage(8000);
+  pros::delay(100);
   move(fast, 1.5_ft, fwd);
   move(fast, 1.5_ft, bwd);
-  turn(27);
+  turn(26);
 
-  pros::delay(100);
+  pros::delay(2000);
 
   intakeMotor.moveVoltage(-12000);
   indexer.set_value(false);
@@ -140,27 +112,19 @@ void rightHigh3(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   indexer.set_value(true);
   pros::delay(2000);
   indexer.set_value(false);
-  pros::delay(1000);
+  pros::delay(2000);
   intakeMotor.moveVoltage(0);
 
   move(fast, 1.5_ft, fwd);
   turn(320);
   move(fast, 4.8_ft, bwd);
   turn(2.5);
-  // moveDrive(-10);
   move(fast, 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_ft, bwd);
-
-  // turn(68.5);
-  // pros::delay(100);
-  // move(fast, 1.5_ft, fwd);
-  // pros::delay(100);
-  // turn(270);
-  // move(fast, 0.00000000000001_ft, bwd);
 
   intakeMotor.moveVoltage(12000);
   pros::delay(150);
   intakeMotor.moveVoltage(0);
-  autoSpin(128);
+  autoSpin();
 }
 
 void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,

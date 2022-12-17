@@ -8,73 +8,70 @@
 #include "pros/rtos.hpp"
 #include "sylib/motor.hpp"
 
-bool spinning = false;
-int dc = 0;
-
 // auto fwSyl = sylib::Motor(19, 3600);
 
 const double FLYWHEEL_kP = 0.7;
-const double FLYWHEEL_kI = 0.07;
-const double FLYWHEEL_kD = 0.55;
-const double kF = 2;
+const double FLYWHEEL_kI = 0;
+const double FLYWHEEL_kD = 0;
+const double kF = 3.3333;
 double currVoltage = 0;
-std::atomic<double> target;
+double target = 0;
+double error, oldError, sumError;
+bool spinning = false;
+int dc = 0;
 
 void Flywheel::pid() {
-  double error, oldError, sumError;
-  while (true) {
-    if (target.load() != 0) {
-      double sensorValue = 400;
-      // double sensorValue = fwSyl.get_velocity();
-      double speedTarget = target.load();
+  // double sensorValue = 400;
+  // double sensorValue = fwSyl.get_velocity();
+  double sensorValue = flywheelMotor.getActualVelocity();
+  double speedTarget = target;
 
-      if (dc % 50 == 0) printf("%f %f\n", sensorValue, speedTarget);
-
-      double error = speedTarget - sensorValue;
-      double oldError = error;
-      double sumError = 0;
-      while (abs(error) >= 30) {
-        // PROPORTIONAL
-        error = speedTarget - sensorValue;
-        // DERIVATIVE
-        double changeInError = error - oldError;
-        // INTEGRAL
-        if (abs(error) < 50) {
-          sumError += error;
-        } else {
-          sumError = 0; // might be += 0?
-        }
-
-        // P, I, D
-        double P = FLYWHEEL_kP * error;
-        double I = FLYWHEEL_kI * sumError;
-        double D = FLYWHEEL_kD * changeInError;
-
-        double sum = P;
-        currVoltage = speedTarget * kF + P;
-        // if (dc % 5 == 0) printf("%f\n", sum);
-        flywheelMotor.moveVoltage(currVoltage);
-
-        oldError = error;
-      }      
+  if (abs(error) >= 30) {
+    // PROPORTIONAL
+    error = speedTarget - sensorValue;
+    // DERIVATIVE
+    double changeInError = error - oldError;
+    // INTEGRAL
+    if (abs(error) < 40) {
+      sumError += error;
+    } else {
+      sumError = 0;
     }
+
+    // P, I, D
+    double P = FLYWHEEL_kP * error;
+    double I = FLYWHEEL_kI * sumError;
+    double D = FLYWHEEL_kD * changeInError;
+
+    double sum = P;
+    currVoltage = speedTarget * kF + P;
+    flywheelMotor.moveVoltage(currVoltage);
+
+    oldError = error;
   }
 }
 
 void Flywheel::spin() {
   if (flywheelButton.changedToPressed()) {
     spinning = !spinning;
+    printf("AYYEEEEE WFG");
   }
   if (spinning) {
-    // target.store(3600);
-    flywheelMotor.moveVelocity(93);
+    target = 2400;
+    // pros::Task {
+    //   [=] {
+    //     pid();
+    //   }
+    // };
     dc++;
+
+    // flywheelMotor.moveVelocity(93);
   } else {
-    // target.store(0);
+    target = 0;
     currVoltage = 0;
     flywheelMotor.moveVoltage(0);
   }
-  // if (dc % 50 == 0) printf("%f %f %f %d\n", target.load(), flywheelMotor.getActualVelocity(), fwSyl.get_velocity(), dc);
+  if (dc % 50 == 0) printf("%s %f %f %d\n", spinning ? "true" : "false", (double)target, flywheelMotor.getActualVelocity(), dc);
 }
 
 bool shooterRunning = false;

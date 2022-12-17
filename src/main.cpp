@@ -15,7 +15,7 @@ int autoIndex = 0;
 
 std::string autList[] = {
     "No Auton",  "Skills Auton", "Left Low",   "Left High",
-    "Right Low", "Right High 3 Discs", "Full Winpoint",
+    "Right Low", "Right High", "Full Winpoint",
 };
 
 int len = sizeof(autList) / sizeof(autList[0]);
@@ -154,7 +154,7 @@ void autonomous() {
     rightLow(normalAuto, fastAuto);
     break;
   case (5):
-    rightHigh3(normalAuto, fastAuto);
+    rightHigh(normalAuto, fastAuto);
     break;
   case (6):
     winPoint(normalAuto, fastAuto);
@@ -182,12 +182,8 @@ void opcontrol() {
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
 
   indexer.set_value(true);
-  // pros::Task pidTask{[=]{
-  //   fw.pid();
-  // }};
 
   while (1) {
-
     model->tank(controller.getAnalog(okapi::ControllerAnalog::leftY),
                   controller.getAnalog(okapi::ControllerAnalog::rightY));
 
@@ -195,6 +191,7 @@ void opcontrol() {
                 // controller.getAnalog(okapi::ControllerAnalog::rightX));
 
     in.run();
+    fw.pid(); // runs one iter of pid loop; this while loop is what controls the pid
     fw.spin();
     fw.shooter();
     fw.pistonOnce();
