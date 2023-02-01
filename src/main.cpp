@@ -191,7 +191,7 @@ void opcontrol() {
                 // controller.getAnalog(okapi::ControllerAnalog::rightX));
 
     in.run();
-    // fw.pid(); // runs one iter of pid loop; this while loop is what controls the pid
+    fw.pid(); // runs one iter of pid loop; this while loop is what controls the pid
     fw.spin();
     fw.shooter();
     fw.pistonOnce();
