@@ -19,7 +19,7 @@ void Intake::run() {
         running = false;
     }
     if (running) {
-      intakeMotor.moveVoltage(11000);
+      intakeMotor.moveVoltage(12000);
     } else if (reverse) {
       intakeMotor.moveVoltage(-12000);
     } else {

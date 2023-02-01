@@ -62,21 +62,21 @@ void Flywheel::spin() {
     spinning = !spinning;
     printf("AYYEEEEE WFG");
   }
-  // if (spinning) {
-  //   // target = 2400;
-  //   // pros::Task {
-  //   //   [=] {
-  //   //     pid();
-  //   //   }
-  //   // };
-  //   // dc++;
+  if (spinning) {
+    target = 2400;
+    pros::Task {
+      [=] {
+        pid();
+      }
+    };
+    dc++;
 
-  //   // flywheelMotor.moveVelocity(-115);
-  // } else {
-  //   target = 0;
-  //   currVoltage = 0;
-  //   flywheelMotor.moveVoltage(0);
-  // }
+    flywheelMotor.moveVelocity(-100);
+  } else {
+    target = 0;
+    currVoltage = 0;
+    flywheelMotor.moveVoltage(0);
+  }
   if (dc % 50 == 0) printf("%s %f %f %d\n", spinning ? "true" : "false", (double)target, flywheelMotor.getActualVelocity(), dc);
 }
 
