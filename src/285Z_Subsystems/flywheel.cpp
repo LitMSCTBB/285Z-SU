@@ -23,13 +23,13 @@ int dc = 0;
 void Flywheel::pid() {
   if (flywheelButton.changedToPressed()) {
     spinning = !spinning;
-    if (spinning) target = 2400;
+    if (spinning) target = 115;
     else target = 0;
     printf("AYYEEEEE WFG");
   }
   // double sensorValue = 400;
   // double sensorValue = fwSyl.get_velocity();
-  double sensorValue = flywheelMotor.getActualVelocity();
+  double sensorValue = -flywheelMotor.getActualVelocity();
   double speedTarget = target;
 
   if (abs(error) >= 30) {
@@ -63,15 +63,15 @@ void Flywheel::spin() {
     printf("AYYEEEEE WFG");
   }
   if (spinning) {
-    target = 2400;
-    pros::Task {
-      [=] {
-        pid();
-      }
-    };
-    dc++;
+    // target = 2400;
+    // pros::Task {
+    //   [=] {
+    //     pid();
+    //   }
+    // };
+    // dc++;
 
-    flywheelMotor.moveVelocity(-100);
+    flywheelMotor.moveVelocity(-110);
   } else {
     target = 0;
     currVoltage = 0;
@@ -87,21 +87,13 @@ void Flywheel::shooter() {
       [=] {
         if (!shooterRunning) {
           shooterRunning = true;
-          indexer.set_value(false);
-          pros::delay(350);
           indexer.set_value(true);
-          pros::delay(50);
+          pros::delay(250);
+          indexer.set_value(false);
+          pros::delay(200);
           shooterRunning = false;
         }
       }
     };
-  }
-}
-
-bool actuated = false;
-void Flywheel::pistonOnce() {
-  if (pistonOnceButton.changedToPressed()) {
-    actuated = !actuated;
-    indexer.set_value(actuated);
   }
 }

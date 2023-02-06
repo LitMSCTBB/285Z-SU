@@ -107,7 +107,6 @@ void competition_initialize() {
 
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
-  indexer.set_value(true);
 
   pros::lcd::set_text(6, "// CALIBRATION COMPLETE //");
 
@@ -181,8 +180,6 @@ void opcontrol() {
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
 
-  indexer.set_value(true);
-
   while (1) {
     model->tank(controller.getAnalog(okapi::ControllerAnalog::leftY),
                   controller.getAnalog(okapi::ControllerAnalog::rightY));
@@ -194,11 +191,10 @@ void opcontrol() {
     auto t1 = std::chrono::high_resolution_clock::now();
     fw.pid(); // runs one iter of pid loop; this while loop is what controls the pid
     auto t2 = std::chrono::high_resolution_clock::now();
-    auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-    // printf("hi ime " + std::string(ms_int));
+    auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+    printf("%s", ("hi ime " + std::to_string(ms_int) + "\n").c_str());
     fw.spin();
     fw.shooter();
-    fw.pistonOnce();
     endgame();
     pros::delay(20);
   }

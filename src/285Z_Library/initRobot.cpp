@@ -21,15 +21,15 @@ ControllerButton pistonOnceButton = ControllerDigital::L2;
 //drive motor points
 int rightFrontPort = 9; 
 int rightMiddlePort = 10;
-int rightBackPort = 8; 
+int rightBackPort = 20; 
 
-int leftFrontPort = -1;
-int leftMiddlePort = -2;
-int leftBackPort = -3;
+int leftFrontPort = -2;
+int leftMiddlePort = -1;
+int leftBackPort = -11;
 
-int intakePort = 20;
+int intakePort = 6;
 
-int flywheelPort = 19;
+int flywheelPort = 7;
 
 Motor rightFrontMotor(rightFrontPort, false, AbstractMotor::gearset::blue,
                       AbstractMotor::encoderUnits::degrees,
