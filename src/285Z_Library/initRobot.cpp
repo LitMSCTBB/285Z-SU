@@ -53,7 +53,7 @@ Motor leftBackMotor(leftBackPort, false, AbstractMotor::gearset::blue,
 
 Motor intakeMotor(intakePort);
 
-Motor flywheelMotor(flywheelPort);
+Motor flywheelMotor(flywheelPort, true, AbstractMotor::gearset::blue, AbstractMotor::encoderUnits::degrees);
 
 MotorGroup driveL({leftFrontPort, leftMiddlePort, leftBackPort});
 MotorGroup driveR({rightFrontPort, rightMiddlePort, rightBackPort});

@@ -1,11 +1,11 @@
+#include "main.h"
+#include "../include/285Z_Subsystems/flywheel.hpp"
+#include "../include/285Z_Subsystems/intake.hpp"
 #include "../include/285z/functions.hpp"
 #include "../include/285z/initSensors.hpp"
 #include "../include/pros/llemu.hpp"
 #include "285Z_Subsystems/pid.hpp"
 #include "285z/initRobot.hpp"
-#include "../include/285Z_Subsystems/intake.hpp"
-#include "../include/285Z_Subsystems/flywheel.hpp"
-#include "main.h"
 #include "sylib/system.hpp"
 
 Intake in;
@@ -14,8 +14,8 @@ Flywheel fw;
 int autoIndex = 0;
 
 std::string autList[] = {
-    "No Auton",  "Skills Auton", "Left Low",   "Left High",
-    "Right Low", "Right High", "Full Winpoint",
+    "No Auton",  "Skills Auton", "Left Low",      "Left High",
+    "Right Low", "Right High",   "Full Winpoint",
 };
 
 int len = sizeof(autList) / sizeof(autList[0]);
@@ -40,7 +40,7 @@ std::shared_ptr<okapi::ChassisController> PIDchassis =
                         {{3.25_in, 11.42_in}, imev5BlueTPR})
         .withMaxVoltage(12000)
         .withGains({0.3, 0.0, 0.00005}, // Distance controller gains
-                   {0.0, 0.0, 0.0},      // Turn controller gains
+                   {0.0, 0.0, 0.0},     // Turn controller gains
                    {0.0, 0, 0.0}
                    // Angle controller gains (helps drive straight)
                    )
@@ -76,12 +76,7 @@ std::shared_ptr<okapi::AsyncMotionProfileController> normalAuto =
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() {
-  pros::lcd::initialize();
-  indexer.set_value(true);
-
-  sylib::initialize();
-}
+void initialize() { pros::lcd::initialize(); }
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -182,17 +177,12 @@ void opcontrol() {
 
   while (1) {
     model->tank(controller.getAnalog(okapi::ControllerAnalog::leftY),
-                  controller.getAnalog(okapi::ControllerAnalog::rightY));
+                controller.getAnalog(okapi::ControllerAnalog::rightY));
 
     // model->arcade(controller.getAnalog(okapi::ControllerAnalog::rightY),
-                // controller.getAnalog(okapi::ControllerAnalog::rightX));
+    // controller.getAnalog(okapi::ControllerAnalog::rightX));
 
     in.run();
-    auto t1 = std::chrono::high_resolution_clock::now();
-    fw.pid(); // runs one iter of pid loop; this while loop is what controls the pid
-    auto t2 = std::chrono::high_resolution_clock::now();
-    auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-    printf("%s", ("hi ime " + std::to_string(ms_int) + "\n").c_str());
     fw.spin();
     fw.shooter();
     endgame();

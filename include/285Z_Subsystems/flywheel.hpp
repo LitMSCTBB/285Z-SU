@@ -7,7 +7,7 @@ class Flywheel {
 public:
   void spin();
   void shooter();
-  void pid();
+  float pid();
   void pistonOnce();
 };
 
