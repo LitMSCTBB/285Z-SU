@@ -11,7 +11,7 @@
 
 const double FLYWHEEL_kP = 175;
 const double FLYWHEEL_kI = 1;
-const double FLYWHEEL_kD = -60;
+const double FLYWHEEL_kD = 0;
 const double BANG_BANG = 150;
 double target = 300; // real target rpm is 300 * 6 = 1800
 double error, oldError, sumError;
@@ -57,15 +57,15 @@ void Flywheel::spin() {
     spinning = !spinning;
   }
   if (spinning) {
-    // float val = pid();
-    // if (val != 0)
-    //   flywheelMotor.moveVelocity(val);
-    // dc++;
-    // if (dc % 5 == 0)
-    //   // printf("%f %f \n", val, flywheelMotor.getActualVelocity());
-    //   printf("(%f,%f)\n", (double)dc / 5, flywheelMotor.getActualVelocity());
+    float val = pid();
+    if (val != 0)
+      flywheelMotor.moveVelocity(val);
+    dc++;
+    if (dc % 5 == 0)
+      // printf("%f %f \n", val, flywheelMotor.getActualVelocity());
+      printf("(%f,%f)\n", (double)dc / 5, flywheelMotor.getActualVelocity());
     // flywheelMotor.moveVelocity(200);
-    flywheelMotor.moveVelocity(250);
+    // flywheelMotor.moveVelocity(250);
   } else {
     flywheelMotor.moveVoltage(0);
   }
