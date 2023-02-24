@@ -131,7 +131,9 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-  autoIndex = 3;
+  driveL.setBrakeMode(AbstractMotor::brakeMode::brake);
+  driveR.setBrakeMode(AbstractMotor::brakeMode::brake);
+  //autoIndex = 3;
   switch (autoIndex) {
   case (0):
     noAuton(normalAuto, fastAuto);

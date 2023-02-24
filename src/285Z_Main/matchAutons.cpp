@@ -106,52 +106,73 @@ void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
 
 void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
               std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-  autoSpin(75);
-  pros::delay(2000);
-  autoShoot();
-  autoSpin(75);
+  // autoSpin(75);
+  // pros::delay(2000);
+  // autoShoot();
+  // autoSpin(75);
 
-  move(fast, -1.5_ft, bwd);
-  turn(90);
-  pros::delay(1000);
-  move(fast, -.000000001_ft, bwd);
-  intakeMotor.moveVoltage(12000);
-  pros::delay(200);
-  intakeMotor.moveVoltage(0);
+  // move(fast, -1.5_ft, bwd);
+  // turn(90);
+  // pros::delay(1000);
+  // move(fast, -.000000001_ft, bwd);
+  // intakeMotor.moveVoltage(12000);
+  // pros::delay(200);
+  // intakeMotor.moveVoltage(0);
 }
 
 void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
                std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-  autoSpin(131);
-  intakeMotor.moveVoltage(8000);
-  pros::delay(100);
-  move(fast, 1.5_ft, fwd);
-  move(fast, 1.5_ft, bwd);
-  turn(26);
-
+//Turn on FW, Intake disc, go back and turn
+  autoSpin(440);
+  intakeMotor.moveVoltage(12000);
+  //move(fast, 1.2_ft, fwd);
+  //pros::delay(1000);
+  //move(fast, 1.2_ft, bwd);
+  driveL.moveVoltage(12000);
+  driveR.moveVoltage(12000);
+  pros::delay(250);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
   pros::delay(2000);
+  turn(24);
+  driveL.moveVoltage(8000);
+  driveR.moveVoltage(8000);
+  pros::delay(400);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
 
+  pros::delay(200);
+
+//Outtake just in case then shoot 3 discs
   intakeMotor.moveVoltage(-12000);
-  indexer.set_value(false);
-  pros::delay(500);
-  indexer.set_value(true);
-  pros::delay(2000);
-  indexer.set_value(false);
-  pros::delay(500);
-  indexer.set_value(true);
-  pros::delay(2000);
-  indexer.set_value(false);
-  pros::delay(2000);
+  pros::delay(300);
   intakeMotor.moveVoltage(0);
+  indexer.set_value(true);
+  pros::delay(200);
+  indexer.set_value(false);
+  pros::delay(300);
+  indexer.set_value(true);
+  pros::delay(200);
+  indexer.set_value(false);
+  pros::delay(1000);
+  indexer.set_value(true);
+  pros::delay(200);
+  indexer.set_value(false);
 
-  move(fast, 1.5_ft, fwd);
   turn(320);
-  move(fast, 4.8_ft, bwd);
-  turn(2.5);
-  move(
-      fast,
-      0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_ft,
-      bwd);
+  driveL.moveVoltage(-12000);
+  driveR.moveVoltage(-12000);
+  pros::delay(500);
+  driveL.moveVoltage(0);
+  pros::delay(200);
+  driveR.moveVoltage(0);
+  pros::delay(100);
+
+  driveL.moveVoltage(-12000);
+  driveR.moveVoltage(-12000);
+  pros::delay(200);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
 
   intakeMotor.moveVoltage(12000);
   pros::delay(150);
