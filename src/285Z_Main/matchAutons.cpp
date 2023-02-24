@@ -122,62 +122,85 @@ void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
 
 void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
                std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-//Turn on FW, Intake disc, go back and turn
-  autoSpin(440);
+  // Turn on FW, Intake disc, go back and turn
+  autoSpin(600);
   intakeMotor.moveVoltage(12000);
-  //move(fast, 1.2_ft, fwd);
-  //pros::delay(1000);
-  //move(fast, 1.2_ft, bwd);
+  // move(fast, 1.2_ft, fwd);
+  // pros::delay(1000);
+  // move(fast, 1.2_ft, bwd);
   driveL.moveVoltage(12000);
   driveR.moveVoltage(12000);
-  pros::delay(250);
+  pros::delay(300);
   driveL.moveVoltage(0);
   driveR.moveVoltage(0);
-  pros::delay(2000);
-  turn(24);
+  pros::delay(1000);
+  turn(22);
   driveL.moveVoltage(8000);
   driveR.moveVoltage(8000);
   pros::delay(400);
   driveL.moveVoltage(0);
   driveR.moveVoltage(0);
 
-  pros::delay(200);
+  autoSpin(424);
+  pros::delay(2000);
 
-//Outtake just in case then shoot 3 discs
+  // Outtake just in case then shoot 1st disc
   intakeMotor.moveVoltage(-12000);
   pros::delay(300);
   intakeMotor.moveVoltage(0);
   indexer.set_value(true);
-  pros::delay(200);
+  pros::delay(25);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  pros::delay(275);
   indexer.set_value(false);
-  pros::delay(300);
+
+  // Jerking off
+  driveL.moveVoltage(-12000);
+  driveR.moveVoltage(-12000);
+  pros::delay(25);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
+  pros::delay(25);
+  driveL.moveVoltage(12000);
+  driveR.moveVoltage(12000);
+  pros::delay(25);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
+
+  // 2nd & 3rd shot
+  pros::delay(2000);
   indexer.set_value(true);
-  pros::delay(200);
+  pros::delay(25);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  pros::delay(275);
   indexer.set_value(false);
-  pros::delay(1000);
+  autoSpin(440);
+  pros::delay(3500);
   indexer.set_value(true);
-  pros::delay(200);
+  pros::delay(25);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  pros::delay(275);
   indexer.set_value(false);
 
   turn(320);
   driveL.moveVoltage(-12000);
   driveR.moveVoltage(-12000);
-  pros::delay(500);
+  pros::delay(450);
   driveL.moveVoltage(0);
   pros::delay(200);
   driveR.moveVoltage(0);
   pros::delay(100);
 
+  intakeMotor.moveVoltage(12000);
   driveL.moveVoltage(-12000);
   driveR.moveVoltage(-12000);
-  pros::delay(200);
+  pros::delay(250);
   driveL.moveVoltage(0);
   driveR.moveVoltage(0);
 
-  intakeMotor.moveVoltage(12000);
-  pros::delay(150);
+  pros::delay(200);
   intakeMotor.moveVoltage(0);
-  autoSpin();
+  autoSpin(0);
 }
 
 void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,

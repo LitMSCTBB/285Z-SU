@@ -10,7 +10,7 @@ void endgame() {
   if (endgameButton.changedToPressed()) {
     endCount++;
     if (endCount == 2) {
-      for (int i=0; i<3; i++) {
+      for (int i = 0; i < 3; i++) {
         eg.set_value(true);
         pros::delay(500);
         eg.set_value(false);
@@ -26,19 +26,20 @@ void moveDrive(double amount, bool fast) {
   double ab = abs(amount);
   double dir = amount / ab;
   int speed = 300;
-  if (fast) speed = 600;
+  if (fast)
+    speed = 600;
   driveL.moveRelative(dir * amount * 12 / (3.25 * pi) * 360 * 5 / 3, speed);
   driveR.moveRelative(dir * amount * 12 / (3.25 * pi) * 360 * 5 / 3, speed);
 }
 
-bool autSpinning = false;
+// bool autSpinning = false;
 void autoSpin(double speed) {
-  autSpinning = !autSpinning;
-  if (autSpinning) {
-    flywheelMotor.moveVelocity(speed);
-  } else {
-    flywheelMotor.moveVelocity(0);
-  }
+  // autSpinning = !autSpinning;
+  // if (autSpinning) {
+  flywheelMotor.moveVelocity(speed);
+  // } else {
+  //   flywheelMotor.moveVelocity(0);
+  // }
 }
 
 void autoShoot() {
@@ -55,14 +56,8 @@ void autoShoot() {
 }
 
 void move(std::shared_ptr<okapi::AsyncMotionProfileController> profile,
-  okapi::QLength distance,
-  bool dir)
-{
-  profile->generatePath({
-    {0_ft,0_ft,0_deg},
-    {distance, 0_ft,0_deg}},
-    "M"
-  );
+          okapi::QLength distance, bool dir) {
+  profile->generatePath({{0_ft, 0_ft, 0_deg}, {distance, 0_ft, 0_deg}}, "M");
 
   profile->setTarget("M", dir);
   profile->waitUntilSettled();
