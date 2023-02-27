@@ -1,20 +1,19 @@
+#include "../include/285Z_Subsystems/pid.hpp"
 #include "../include/285z/initRobot.hpp"
 #include "../include/285z/initSensors.hpp"
-#include "../include/285Z_Subsystems/pid.hpp"
 #include <string>
+
 
 const double GLOBAL_kP = 3.5;
 const double GLOBAL_kI = 0.0;
 const double GLOBAL_kD = 0.0;
 
-void calibrate(){
-  imuSensor.reset();
-}
+void calibrate() { imuSensor.reset(); }
 
 double deg = 0;
 bool absolute = true;
 
-void turn(double degrees){
+void turn(double degrees) {
 
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
@@ -29,7 +28,7 @@ void turn(double degrees){
 
   double deltaI = abs(thetaF - thetaI);
 
-  if (deltaI > 180){
+  if (deltaI > 180) {
     if (thetaF > 180) {
       turnTarget = thetaF - 360;
     } else {
@@ -41,7 +40,6 @@ void turn(double degrees){
     } else {
       sensorValue = thetaI;
     }
-
   }
 
   double error = turnTarget - sensorValue;
@@ -52,24 +50,24 @@ void turn(double degrees){
   while (TURN_NOT_FINISH) {
     sensorValue = imuSensor.get_heading();
 
-    if (deltaI > 180){
+    if (deltaI > 180) {
       if (sensorValue > 180) {
         sensorValue = sensorValue - 360;
       }
     }
 
-    //PROPORTIONAL
+    // PROPORTIONAL
     error = turnTarget - sensorValue;
-    //DERIVATIVE
+    // DERIVATIVE
     double changeInError = error - oldError;
-    //INTEGRAL
+    // INTEGRAL
     if (abs(error) < 50) {
       sumError += error;
     } else {
-      sumError = 0; //might be += 0?
+      sumError = 0; // might be += 0?
     }
 
-    //P, I, D
+    // P, I, D
     double P = GLOBAL_kP * error;
     double I = GLOBAL_kI * sumError;
     double D = GLOBAL_kD * changeInError;
@@ -83,7 +81,8 @@ void turn(double degrees){
     double errorThreshold = 1.5;
     double velocityThreshold = 2;
 
-    TURN_NOT_FINISH = !((abs(error) < errorThreshold) && (abs(changeInError) < velocityThreshold));
+    TURN_NOT_FINISH = !((abs(error) < errorThreshold) &&
+                        (abs(changeInError) < velocityThreshold));
   }
   driveL.moveVoltage(0);
   driveR.moveVoltage(0);

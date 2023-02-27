@@ -32,6 +32,24 @@ void moveDrive(double amount, bool fast) {
   driveR.moveRelative(dir * amount * 12 / (3.25 * pi) * 360 * 5 / 3, speed);
 }
 
+void md(double voltage, double delay) {
+  driveL.moveVoltage(voltage);
+  driveR.moveVoltage(voltage);
+  pros::delay(delay);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
+}
+
+// I don't know how to code and it was bugging when i put it in op so i just
+// Positive voltage turns right, negative voltage turns left
+void turnd(double voltage, double delay) {
+  driveL.moveVoltage(voltage);
+  driveR.moveVoltage(-1 * voltage);
+  pros::delay(delay);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
+}
+
 // bool autSpinning = false;
 void autoSpin(double speed) {
   // autSpinning = !autSpinning;

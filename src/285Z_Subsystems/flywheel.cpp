@@ -57,15 +57,15 @@ void Flywheel::spin() {
     spinning = !spinning;
   }
   if (spinning) {
-    float val = pid();
-    if (val != 0)
-      flywheelMotor.moveVelocity(val);
-    dc++;
-    if (dc % 5 == 0)
-      // printf("%f %f \n", val, flywheelMotor.getActualVelocity());
-      printf("(%f,%f)\n", (double)dc / 5, flywheelMotor.getActualVelocity());
-    // flywheelMotor.moveVelocity(200);
+    // float val = pid();
+    // if (val != 0)
+    //   flywheelMotor.moveVelocity(val);
+    // dc++;
+    // if (dc % 5 == 0)
+    //   // printf("%f %f \n", val, flywheelMotor.getActualVelocity());
+    //   printf("(%f,%f)\n", (double)dc / 5, flywheelMotor.getActualVelocity());
     // flywheelMotor.moveVelocity(250);
+    flywheelMotor.moveVoltage(7000);
   } else {
     flywheelMotor.moveVoltage(0);
   }
@@ -78,9 +78,9 @@ void Flywheel::shooter() {
       if (!shooterRunning) {
         shooterRunning = true;
         indexer.set_value(true);
-        pros::delay(300);
-        indexer.set_value(false);
         pros::delay(150);
+        indexer.set_value(false);
+        pros::delay(50);
         shooterRunning = false;
       }
     }};

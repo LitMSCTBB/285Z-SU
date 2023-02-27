@@ -6,7 +6,169 @@
 #include "pros/rtos.hpp"
 
 //***************************** RED/BLUE AUTONOMOUS PROGRAMS
-//**********************//
+//**********************************//
+// Order: Left High, Right High, Full AWP
+
+void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+              std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
+  flywheelMotor.moveVoltage(9500);
+
+  // Back, roller, forward
+  md(-12000, 180);
+  pros::delay(100);
+  intakeMotor.moveVoltage(12000);
+  pros::delay(150);
+  intakeMotor.moveVoltage(0);
+  md(12000, 50);
+
+  // Turn & intake
+  turn(305);
+  intakeMotor.moveVoltage(12000);
+  md(12000, 200);
+  pros::delay(600);
+  intakeMotor.moveVoltage(0);
+
+  // Backup from disk & turn
+  driveL.moveRelative(-0.25 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
+  driveR.moveRelative(-0.25 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
+  pros::delay(600);
+  turn(350);
+
+  // Shoot 3 discs
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(300);
+  indexer.set_value(false);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  flywheelMotor.moveVoltage(9600);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(300);
+  indexer.set_value(false);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  flywheelMotor.moveVoltage(9650);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(300);
+  indexer.set_value(false);
+  flywheelMotor.moveVoltage(7900);
+
+  pros::delay(100);
+  turn(49.5);
+
+  // outtake to destroy stack
+  intakeMotor.moveVoltage(-12000);
+  // moveDrive(1.4, false);
+  md(3000, 650);
+  intakeMotor.moveVoltage(0);
+  pros::delay(100);
+
+  // slowly intake three stack
+  intakeMotor.moveVoltage(12000);
+  md(6000, 1167);
+
+  turn(315);
+
+  // Shoot 3 discs
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(200);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  flywheelMotor.moveVoltage(9200);
+  indexer.set_value(false);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(200);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  flywheelMotor.moveVoltage(9200);
+  indexer.set_value(false);
+  pros::delay(500);
+  indexer.set_value(true);
+  pros::delay(200);
+  indexer.set_value(false);
+
+  intakeMotor.moveVoltage(0);
+
+  autoSpin(0);
+}
+
+void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+               std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
+  // Turn on FW, intake disc, turn & drive to center
+  // autoSpin(600);
+  flywheelMotor.moveVoltage(8000);
+  intakeMotor.moveVoltage(12000);
+  md(12000, 300);
+  pros::delay(500);
+  turn(18);
+  md(8000, 400);
+
+  // autoSpin(424);
+  pros::delay(2000);
+
+  // Outtake (Jam Safety) then shoot 1st disc
+  intakeMotor.moveVoltage(-12000);
+  pros::delay(300);
+  intakeMotor.moveVoltage(0);
+  indexer.set_value(true);
+  pros::delay(300);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  indexer.set_value(false);
+
+  // Jerking off
+  // driveL.moveVoltage(-12000);
+  // driveR.moveVoltage(-12000);
+  // pros::delay(100);
+  // driveL.moveVoltage(0);
+  // driveR.moveVoltage(0);
+  // pros::delay(100);
+  // driveL.moveVoltage(12000);
+  // driveR.moveVoltage(12000);
+  // pros::delay(100);
+  // driveL.moveVoltage(0);
+  // driveR.moveVoltage(0);
+
+  flywheelMotor.moveVoltage(8100);
+  pros::delay(600);
+  indexer.set_value(true);
+  pros::delay(300);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  indexer.set_value(false);
+  flywheelMotor.moveVoltage(8100);
+  pros::delay(1000);
+  indexer.set_value(true);
+  pros::delay(300);
+  printf("%f\n", flywheelMotor.getActualVelocity());
+  indexer.set_value(false);
+
+  pros::delay(100);
+
+  // Turn & backup to roller
+  turn(320);
+  driveL.moveVoltage(-12000);
+  driveR.moveVoltage(-12000);
+  pros::delay(450);
+  driveL.moveVoltage(0);
+  pros::delay(200);
+  driveR.moveVoltage(0);
+  pros::delay(100);
+
+  // Roller
+  intakeMotor.moveVoltage(12000);
+  driveL.moveVoltage(-12000);
+  driveR.moveVoltage(-12000);
+  pros::delay(250);
+  driveL.moveVoltage(0);
+  driveR.moveVoltage(0);
+
+  pros::delay(200);
+  intakeMotor.moveVoltage(0);
+  // autoSpin(0);
+  flywheelMotor.moveVoltage(0);
+}
+
+void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,
+              std::shared_ptr<okapi::AsyncMotionProfileController> fast) {}
 
 void leftLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
              std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
@@ -30,80 +192,6 @@ void leftLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   // intakeMotor.moveVoltage(0);
 }
 
-void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-              std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-  autoSpin(550);
-  // move back to roller
-  driveL.moveRelative(-0.35 * 12 / (3.25 * pi) * 360 * 5 / 3, 150);
-  driveR.moveRelative(-0.35 * 12 / (3.25 * pi) * 360 * 5 / 3, 150);
-
-  // roller
-  pros::delay(200);
-  intakeMotor.moveVoltage(12000);
-  pros::delay(300);
-  intakeMotor.moveVoltage(0);
-
-  pros::delay(100);
-
-  // move forward from roller
-  // driveL.moveRelative(1.0 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
-  // driveR.moveRelative(1.0 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
-  moveDrive(0.22, false);
-  pros::delay(100);
-
-  // turn to intake
-  turn(310);
-  intakeMotor.moveVoltage(12000);
-  moveDrive(0.3, false);
-  pros::delay(1100);
-  intakeMotor.moveVoltage(0);
-  pros::delay(100);
-  intakeMotor.moveVoltage(-12000);
-  pros::delay(100);
-  intakeMotor.moveVoltage(0);
-
-  // back up from disk
-  driveL.moveRelative(-0.25 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
-  driveR.moveRelative(-0.25 * 12 / (3.25 * pi) * 360 * 5 / 3, 300);
-  pros::delay(600);
-
-  // turn for shooting (between disk-roller line and line
-  // perpendicular to roller)
-  turn(350);
-
-  // shoot
-  pros::delay(500);
-  indexer.set_value(true);
-  pros::delay(200);
-  indexer.set_value(false);
-  pros::delay(200);
-  indexer.set_value(true);
-  pros::delay(200);
-  indexer.set_value(false);
-  pros::delay(400);
-  indexer.set_value(true);
-  pros::delay(200);
-  indexer.set_value(false);
-
-  // move to three stack
-  pros::delay(100);
-  turn(50);
-  intakeMotor.moveVoltage(-12000);
-  // moveDrive(1.4, false);
-  driveL.moveVoltage(8000);
-  driveR.moveVoltage(8000);
-  pros::delay(400);
-  driveL.moveVoltage(0);
-  driveR.moveVoltage(0);
-  intakeMotor.moveVoltage(0);
-  pros::delay(100);
-  intakeMotor.moveVoltage(12000);
-  moveDrive(0.2, false);
-  intakeMotor.moveVoltage(0);
-
-  autoSpin();
-}
-
 void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
               std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
   // autoSpin(75);
@@ -118,113 +206,4 @@ void rightLow(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   // intakeMotor.moveVoltage(12000);
   // pros::delay(200);
   // intakeMotor.moveVoltage(0);
-}
-
-void rightHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-               std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-  // Turn on FW, Intake disc, go back and turn
-  autoSpin(600);
-  intakeMotor.moveVoltage(12000);
-  // move(fast, 1.2_ft, fwd);
-  // pros::delay(1000);
-  // move(fast, 1.2_ft, bwd);
-  driveL.moveVoltage(12000);
-  driveR.moveVoltage(12000);
-  pros::delay(300);
-  driveL.moveVoltage(0);
-  driveR.moveVoltage(0);
-  pros::delay(1000);
-  turn(22);
-  driveL.moveVoltage(8000);
-  driveR.moveVoltage(8000);
-  pros::delay(400);
-  driveL.moveVoltage(0);
-  driveR.moveVoltage(0);
-
-  autoSpin(424);
-  pros::delay(2000);
-
-  // Outtake just in case then shoot 1st disc
-  intakeMotor.moveVoltage(-12000);
-  pros::delay(300);
-  intakeMotor.moveVoltage(0);
-  indexer.set_value(true);
-  pros::delay(25);
-  printf("%f\n", flywheelMotor.getActualVelocity());
-  pros::delay(275);
-  indexer.set_value(false);
-
-  // Jerking off
-  driveL.moveVoltage(-12000);
-  driveR.moveVoltage(-12000);
-  pros::delay(25);
-  driveL.moveVoltage(0);
-  driveR.moveVoltage(0);
-  pros::delay(25);
-  driveL.moveVoltage(12000);
-  driveR.moveVoltage(12000);
-  pros::delay(25);
-  driveL.moveVoltage(0);
-  driveR.moveVoltage(0);
-
-  // 2nd & 3rd shot
-  pros::delay(2000);
-  indexer.set_value(true);
-  pros::delay(25);
-  printf("%f\n", flywheelMotor.getActualVelocity());
-  pros::delay(275);
-  indexer.set_value(false);
-  autoSpin(440);
-  pros::delay(3500);
-  indexer.set_value(true);
-  pros::delay(25);
-  printf("%f\n", flywheelMotor.getActualVelocity());
-  pros::delay(275);
-  indexer.set_value(false);
-
-  turn(320);
-  driveL.moveVoltage(-12000);
-  driveR.moveVoltage(-12000);
-  pros::delay(450);
-  driveL.moveVoltage(0);
-  pros::delay(200);
-  driveR.moveVoltage(0);
-  pros::delay(100);
-
-  intakeMotor.moveVoltage(12000);
-  driveL.moveVoltage(-12000);
-  driveR.moveVoltage(-12000);
-  pros::delay(250);
-  driveL.moveVoltage(0);
-  driveR.moveVoltage(0);
-
-  pros::delay(200);
-  intakeMotor.moveVoltage(0);
-  autoSpin(0);
-}
-
-void winPoint(std::shared_ptr<okapi::AsyncMotionProfileController> med,
-              std::shared_ptr<okapi::AsyncMotionProfileController> fast) {
-  // turn(15);
-  // PIDchassis->moveDistance(-0.5_ft);
-  // turn(-15);
-
-  // // roller spin
-
-  // move(fast, 1_ft, fwd);
-  // // move diagonally parallel to center diagonal white line
-  // turn(45);
-  // move(fast, 6_ft, fwd);
-  // turn(135);
-
-  // move(fast, -0.5_ft, bwd);
-
-  // // roller spin
-
-  // turn(15);
-  // autoSpin(200);
-  // autoShoot();
-  // pros::delay(5000);
-  // autoShoot();
-  // autoSpin(200); // stops spinning
 }
