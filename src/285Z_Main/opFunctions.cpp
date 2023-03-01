@@ -8,9 +8,10 @@
 int endCount = 0;
 void endgame() {
   if (endgameButton.changedToPressed()) {
+    blooper.set_value(false);
     endCount++;
     if (endCount == 2) {
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 2; i++) {
         eg.set_value(true);
         pros::delay(500);
         eg.set_value(false);

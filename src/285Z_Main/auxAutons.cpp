@@ -14,6 +14,7 @@ void noAuton(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   // driveR.moveRelative(-600, 600);
   // pros::delay(2000);
   // moveDrive(-1, false);
+  leftHigh(med, fast);
 }
 
 void skillsAuto(std::shared_ptr<okapi::AsyncMotionProfileController> med,

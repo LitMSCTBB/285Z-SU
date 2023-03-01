@@ -6,6 +6,7 @@ class Flywheel {
 
 public:
   void spin();
+  void blooperToggle();
   void shooter();
   float pid();
   void pistonOnce();

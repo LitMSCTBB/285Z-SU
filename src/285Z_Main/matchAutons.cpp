@@ -37,27 +37,25 @@ void leftHigh(std::shared_ptr<okapi::AsyncMotionProfileController> med,
   // Shoot 3 discs
   pros::delay(500);
   indexer.set_value(true);
-  pros::delay(300);
+  pros::delay(500);
   indexer.set_value(false);
   printf("%f\n", flywheelMotor.getActualVelocity());
   flywheelMotor.moveVoltage(9600);
   pros::delay(500);
   indexer.set_value(true);
-  pros::delay(300);
+  pros::delay(500);
   indexer.set_value(false);
   printf("%f\n", flywheelMotor.getActualVelocity());
   flywheelMotor.moveVoltage(9650);
   pros::delay(500);
   indexer.set_value(true);
-  pros::delay(300);
+  pros::delay(500);
   indexer.set_value(false);
   flywheelMotor.moveVoltage(7900);
 
   pros::delay(100);
-  turn(49.5);
+  turnd(6000, 300);
 
-  // outtake to destroy stack
-  intakeMotor.moveVoltage(-12000);
   // moveDrive(1.4, false);
   md(3000, 650);
   intakeMotor.moveVoltage(0);

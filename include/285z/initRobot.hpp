@@ -1,10 +1,10 @@
 #pragma once
 #include "main.h"
 
-//Controller
+// Controller
 extern Controller controller;
 
-//Controller Button
+// Controller Button
 extern ControllerButton intakeButton;
 extern ControllerButton intakeStopButton;
 extern ControllerButton outtakeButton;
@@ -14,6 +14,7 @@ extern ControllerButton rollerButton;
 extern ControllerButton endgameButton;
 extern ControllerButton pistonButton;
 extern ControllerButton pistonOnceButton;
+extern ControllerButton blooperButton;
 
 // drive motor points
 extern int rightFrontPort;
@@ -28,7 +29,7 @@ extern int indexerPort;
 
 extern int flywheelPort;
 
-//Motors
+// Motors
 extern Motor rightFrontMotor;
 extern Motor rightBackMotor;
 extern Motor leftFrontMotor;

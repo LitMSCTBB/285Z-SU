@@ -9,23 +9,28 @@
 #include "sylib/motor.hpp"
 #include <string>
 
-const double FLYWHEEL_kP = 175;
-const double FLYWHEEL_kI = 1;
+const double FLYWHEEL_kP = 2.0;
+const double FLYWHEEL_kI = 0.01;
 const double FLYWHEEL_kD = 0;
+const double kF = 20; // feed forward
 const double BANG_BANG = 150;
-double target = 300; // real target rpm is 300 * 6 = 1800
+double target = 400; // real target rpm is 400 * 6 = 2400
 double error, oldError, sumError;
 bool spinning = false;
 int dc = 0;
+
+// int flyVoltage = 7000;
+
+double mem_pid = 0;
 
 float Flywheel::pid() {
   double sensorValue = flywheelMotor.getActualVelocity();
   double speedTarget = target;
   error = speedTarget - sensorValue;
 
-  if (abs(error) >= 80)
-    return (BANG_BANG * error > 600) ? 600 : BANG_BANG * error;
-  if (abs(error) >= 10) {
+  if (abs(error) >= 60)
+    return (BANG_BANG * error > 12000) ? 12000 : BANG_BANG * error;
+  if (abs(error) >= 3) {
     // PROPORTIONAL
 
     // DERIVATIVE
@@ -42,14 +47,26 @@ float Flywheel::pid() {
     double I = FLYWHEEL_kI * sumError;
     double D = FLYWHEEL_kD * changeInError;
 
-    double sum = P + I + D;
+    double sum = P + I + D + kF * target;
 
     oldError = error;
     dc++;
 
-    return ((sum > 600) ? 600 : sum);
+    sum = (sum > 12000) ? 12000 : sum;
+    mem_pid = sum;
+    return sum;
   }
-  return sensorValue;
+  return mem_pid;
+}
+
+bool ba = false;
+void Flywheel::blooperToggle() {
+  if (blooperButton.changedToPressed()) {
+    ba = !ba;
+    target = spinning ? (ba ? 375 : 400) : 0;
+    // flyVoltage = (ba) ? 6000 : 7000;
+  }
+  blooper.set_value(ba);
 }
 
 void Flywheel::spin() {
@@ -57,15 +74,13 @@ void Flywheel::spin() {
     spinning = !spinning;
   }
   if (spinning) {
-    // float val = pid();
-    // if (val != 0)
-    //   flywheelMotor.moveVelocity(val);
-    // dc++;
-    // if (dc % 5 == 0)
-    //   // printf("%f %f \n", val, flywheelMotor.getActualVelocity());
-    //   printf("(%f,%f)\n", (double)dc / 5, flywheelMotor.getActualVelocity());
-    // flywheelMotor.moveVelocity(250);
-    flywheelMotor.moveVoltage(7000);
+    float val = pid();
+    if (val != 0)
+      flywheelMotor.moveVoltage(val);
+    dc++;
+    if (dc % 5 == 0)
+      printf("(%f,%f)\n", (double)dc / 5, flywheelMotor.getActualVelocity());
+    // flywheelMotor.moveVoltage(flyVoltage);
   } else {
     flywheelMotor.moveVoltage(0);
   }
@@ -80,7 +95,7 @@ void Flywheel::shooter() {
         indexer.set_value(true);
         pros::delay(150);
         indexer.set_value(false);
-        pros::delay(50);
+        pros::delay(100);
         shooterRunning = false;
       }
     }};

@@ -188,6 +188,7 @@ void opcontrol() {
     in.run();
     fw.spin();
     fw.shooter();
+    fw.blooperToggle();
     endgame();
     pros::delay(20);
   }
