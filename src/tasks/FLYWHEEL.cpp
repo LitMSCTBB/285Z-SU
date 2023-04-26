@@ -12,7 +12,7 @@
 // Secondary flywheel speed
 #define secondSpeed 2000
 // Blooper flywheel speed
-#define bloopSpeed 1600
+#define bloopSpeed 1550
 
 bool flywheelB = false;
 bool flyD = true;
@@ -30,6 +30,8 @@ float deltaErr;
 float lastErr = 0;
 
 bool distToggle = false;
+
+int prevBloopState = 10;
 
 void Flywheel::run() {
     err = FLY_TARGET - (flywheel.getActualVelocity() * 6.0);
@@ -51,12 +53,15 @@ void Flywheel::run() {
 
         flyD = (fabs(err) < 60) && (fabs(deltaErr) < 100);
 
-        if (distancebtn.changedToPressed() && !bState){ distToggle = !distToggle; }
+        if (distancebtn.changedToPressed() && (bState != 1)){ distToggle = !distToggle; }
         
-        switch (bState) {
-            case -1: setTarget((distToggle) ? secondSpeed : baseSpeed); break;
-            case 0: setTarget(FLY_TARGET); break;
-            case 1: setTarget(bloopSpeed); break;
+        if (bState != prevBloopState) {
+            prevBloopState = bState;
+            switch (bState) {
+                case (-1): setTarget((distToggle) ? secondSpeed : baseSpeed); break;
+                case (0): setTarget(FLY_TARGET); break;
+                case (1): setTarget(bloopSpeed); break;
+            }
         }
         
         // if (t % 10 == 0) printf("(%f, %f) | %.5f, %d\n", t * 0.01, flywheel.getActualVelocity() * 6.0, tmp, voltage);
@@ -65,7 +70,7 @@ void Flywheel::run() {
         // if (t % 10 == 0) printf("(%f-s_{croll}, %f)\n", t * 0.01, flywheel.getActualVelocity() * 6.0);
         // if (t % 10 == 0) printf("(%f-s_{croll}, %f)\n", t * 0.01, tmp);
 
-        printf("voltage: %04d | speed: %10.5f | %s\n", voltage, flywheel.getActualVelocity() * 6.0, (flyDone) ? "target reached" : "approaching target");
+        printf("voltage: %04d | speed: %10.5f | %s\n", voltage, flywheel.getActualVelocity() * 6.0, (flyD) ? "target reached" : "approaching target");
     }
     else { voltage = 0; }
     flywheel.moveVoltage(voltage);

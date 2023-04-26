@@ -17,11 +17,12 @@ void Intake::run() {
     
     if (indexN != 0) {
         while (indexN > 0) {
-            setState(-600);
+            intake.moveVoltage(-12000);
             pros::delay((indexN == 1) ? 250 : 145);
-            setState(0);
+            intake.moveVoltage(0);
             while (!flyDone()) pros::delay(5);
             pros::delay(400);
+            indexN--;
         }
     }
     else intake.moveVoltage((int) (intakeB * 12000));

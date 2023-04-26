@@ -115,7 +115,7 @@ void fullWP() {
     moveWait();
 
     setInSpeed(600);
-    moveNTurn(106, 270, 0.90);
+    moveNTurn(109, 270, 0.90);
     moveWait();
 
     // index(3);
@@ -131,7 +131,7 @@ void fullWP() {
     moveWait(750);
 
     setInSpeed(600);
-    pros::delay(160);
+    pros::delay(140);
     setInSpeed(0);
 }
 
@@ -141,7 +141,7 @@ void rightSideHighGoal() {
     autonWait(15);
 
     // Initial turn and spin up
-    setFlywheelTarget(2050);
+    setFlywheelTarget(2040);
     pistonIntake.set_value(true);
     turn(19.5);
     moveWait();
@@ -209,11 +209,11 @@ void rightSideHighGoal() {
     RD.setBrakeMode(AbstractMotor::brakeMode::coast);
     
     // Turn for line of 3
-    turn(315);
+    turn(317);
     moveWait();
 
     // Intake line of 3 + move to shoot
-    moveNTurn(58, 41.5, 0.7);
+    moveNTurn(58, 42.5, 0.7);
     setInSpeed(600);
     autonWait();
 
@@ -287,39 +287,48 @@ void rightSideHighGoal() {
 }
 
 void leftSideHighGoal() {
-    setFlywheelTarget(2120);
-    moveNTurn(7, 315);
+    setFlywheelTarget(2125);
+    pistonIntake.set_value(true);
+    turn(350);
     moveWait();
 
-    turn(352);
+    linearMove(9.5);
     autonWait();
 
-    pistonIntake.set_value(true);
     index(2);
+    autonWait();
+
+    setFlywheelTarget(2075);
+    setInSpeed(600);
+    pistonIntake.set_value(false);
+    pros::delay(1750);
+
+    index(3);
     autonWait();
 
     turn(0);
     moveWait();
 
-    linearMove(-13);
+    linearMove(-16);
     moveWait(1500);
 
     setInSpeed(600);
-    pros::delay(225);
+    pros::delay(100);
     setInSpeed(0);
 
     setFlywheelTarget(2050);
-    moveNTurn(4, 53);
+    pistonIntake.set_value(true);
+    moveNTurn(5, 48);
     moveWait();
 
-    linearMove(23.5);
+    linearMove(18);
     moveWait();
 
     setInSpeed(600);
     pistonIntake.set_value(false);
     pros::delay(1625);
 
-    turn(342);
+    turn(343);
     moveWait();
 
     linearMove(7);
@@ -388,6 +397,10 @@ void leftSideHighGoal() {
     // moveWait();
 
     // index(3);
+}
+
+void rightSideRush() {
+
 }
 
 #endif

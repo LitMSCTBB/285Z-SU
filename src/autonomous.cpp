@@ -21,6 +21,7 @@ void autonomous() {
         case (1): fullWP(); break;
         case (2): rightSideHighGoal(); break;
         case (3): leftSideHighGoal(); break;
+        case (4): rightSideRush(); break;
         default: noAuton(); break;
     }
 }

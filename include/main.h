@@ -175,12 +175,14 @@ extern void noAuton();
 extern void fullWP();
 extern void rightSideHighGoal();
 extern void leftSideHighGoal();
+extern void rightSideRush();
 
 const std::vector<std::string> autons = {
 	"No Autonomous       ",
 	"Full WP             ",
 	"RS High Goal        ",
-    "LS High Goal        "
+    "LS High Goal        ",
+    "RS Rush             "
 };
 
 const int numAutons = (int) autons.size();

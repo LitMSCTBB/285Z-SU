@@ -24,7 +24,7 @@ pros::Task flyT = NONE; // Flywheel task
 pros::Task intakeT = NONE; // Intake task
 pros::Task driveT = NONE; // Drive task
 
-int aut = 0;
+int aut = 3;
 int timeV = 0;
 uint32_t elapsed = 0;
 
@@ -36,7 +36,7 @@ void stopTasks() {
 
     // Drive and Blooper are special
     d.override();
-    b.setState(false);
+    b.setState(0);
 
     pistonIntake.set_value(false);
 }
@@ -103,8 +103,8 @@ void startTasks() {
 
             controller.setText(1, 0, "Battery at " + std::to_string((int) pros::battery::get_capacity()) + "%        ");
 
-            if (flywheel.getTemperature() >= 48.0) motors.push_back("FW");
-            if (intake.getTemperature() >= 50.0) motors.push_back("I");
+            if (flywheel.getTemperature() >= 46.5) motors.push_back("FW");
+            if (intake.getTemperature() >= 46.5) motors.push_back("I");
             if (LD.getTemperature() >= 50.0 || RD.getTemperature() >= 50.0) motors.push_back("D");
             
             if (!motors.empty() && timeV < 100) controller.setText(2, 0, std::accumulate(motors.begin() + 1, motors.end(), motors[0], [](std::string x, std::string y) { return x + ", " + y; }) + " overheating     ");
