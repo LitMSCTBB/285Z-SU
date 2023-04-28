@@ -9,6 +9,7 @@ class Intake {
         void setState(float n);
         void index(int n);
         bool done();
+        void override();
 };
 
 #endif

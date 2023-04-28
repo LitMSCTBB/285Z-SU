@@ -79,7 +79,7 @@ void noAuton() {
 }
 
 void fullWP() {
-    setFlywheelTarget(2250);
+    setFlywheelTarget(2275);
     pistonIntake.set_value(true);
     linearMove(-3);
     moveWait(250);
@@ -94,11 +94,11 @@ void fullWP() {
     index(2);
     autonWait();
 
-    setFlywheelTarget(2125);
+    setFlywheelTarget(2150);
     turn(45);
     moveWait();
 
-    linearMove(21.5);
+    linearMove(22.5);
     moveWait();
 
     setInSpeed(600);
@@ -127,8 +127,8 @@ void fullWP() {
     // moveNTurn(-24, 270);
     // moveWait();
 
-    linearMove(-6);
-    moveWait(750);
+    linearMove(-10);
+    moveWait(1000);
 
     setInSpeed(600);
     pros::delay(140);
@@ -155,7 +155,7 @@ void rightSideHighGoal() {
     autonWait();
 
     // Move backwards for 3-stack
-    setFlywheelTarget(2075);
+    setFlywheelTarget(2100);
     linearMove(-7);
     moveWait();
 
@@ -186,17 +186,21 @@ void rightSideHighGoal() {
 
     LD.moveVoltage(-12000);
     RD.moveVoltage(-1000);
-    pros::delay(500);
+    pros::delay(600);
 
-    LD.moveVoltage(-2000);
+    LD.moveVoltage(-1000);
     RD.moveVoltage(-12000);
     pros::delay(425);
+
+    LD.moveVoltage(-12000);
+    RD.moveVoltage(-12000);
+    pros::delay(200);
 
     LD.moveVoltage(0);
     RD.moveVoltage(0);
     
     // Run roller + increase flywheel speed for midfield shot
-    setFlywheelTarget(2030);
+    setFlywheelTarget(1925);
     setInSpeed(600);
     pros::delay(225);
     
@@ -209,17 +213,22 @@ void rightSideHighGoal() {
     RD.setBrakeMode(AbstractMotor::brakeMode::coast);
     
     // Turn for line of 3
-    turn(317);
+    turn(319);
     moveWait();
 
     // Intake line of 3 + move to shoot
-    moveNTurn(58, 42.5, 0.7);
+    moveNTurn(60, 40.5, 0.75);
     setInSpeed(600);
+    moveWait();
+
+    linearMove(6);
     autonWait();
 
     // Shoot line of 3
     index(3);
     autonWait();
+
+    setInSpeed(0);
 
     //
 
@@ -337,6 +346,7 @@ void leftSideHighGoal() {
     index(3);
     autonWait();
 
+    setInSpeed(0);
 
     // turn(0);
     // autonWait(25);

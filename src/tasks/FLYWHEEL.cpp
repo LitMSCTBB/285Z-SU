@@ -8,11 +8,11 @@
 // How smooth the PID output should be
 #define smoothDegree 16
 // Base flywheel speed
-#define baseSpeed 1650
+#define baseSpeed 1700
 // Secondary flywheel speed
 #define secondSpeed 2000
 // Blooper flywheel speed
-#define bloopSpeed 1550
+#define bloopSpeed 1600
 
 bool flywheelB = false;
 bool flyD = true;
@@ -70,7 +70,7 @@ void Flywheel::run() {
         // if (t % 10 == 0) printf("(%f-s_{croll}, %f)\n", t * 0.01, flywheel.getActualVelocity() * 6.0);
         // if (t % 10 == 0) printf("(%f-s_{croll}, %f)\n", t * 0.01, tmp);
 
-        printf("voltage: %04d | speed: %10.5f | %s\n", voltage, flywheel.getActualVelocity() * 6.0, (flyD) ? "target reached" : "approaching target");
+        // printf("voltage: %04d | speed: %10.5f | %s\n", voltage, flywheel.getActualVelocity() * 6.0, (flyD) ? "target reached" : "approaching target");
     }
     else { voltage = 0; }
     flywheel.moveVoltage(voltage);

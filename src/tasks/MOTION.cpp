@@ -51,7 +51,7 @@ void Drive::run() {
           leftVal = -leftEnc.get(); rightVal = rightEnc.get();
           driveDone = (fabs(err) < 0.75) && (fabs(err - lastErr) < 0.5);
           
-          printf("voltage - %10.3f | err - %6.3f | traveled %6.3f | LD - %.3f RD - %.3f | %s\n", voltage, err, travel, leftVal, rightVal, (driveDone) ? "done" : "not done");
+          // printf("voltage - %10.3f | err - %6.3f | traveled %6.3f | LD - %.3f RD - %.3f | %s\n", voltage, err, travel, leftVal, rightVal, (driveDone) ? "done" : "not done");
           
           pros::delay(10);
         }

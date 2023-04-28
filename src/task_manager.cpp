@@ -24,21 +24,25 @@ pros::Task flyT = NONE; // Flywheel task
 pros::Task intakeT = NONE; // Intake task
 pros::Task driveT = NONE; // Drive task
 
-int aut = 3;
+int aut = 0;
 int timeV = 0;
 uint32_t elapsed = 0;
+bool started = false;
 
 // Main
 void stopTasks() {
-    blooperT.notify();
     flyT.notify();
     intakeT.notify();
 
     // Drive and Blooper are special
+    in.override();
     d.override();
     b.setState(0);
 
     pistonIntake.set_value(false);
+
+    // flyT.remove();
+    // intakeT.remove();
 }
 
 void startTasks() {
@@ -58,48 +62,74 @@ void startTasks() {
 
         while (true) {
             if (pros::competition::get_status() != state) {
+                printf(" %d | %d | %d\n", pros::competition::is_autonomous(), pros::competition::is_disabled(), pros::competition::get_status());
                 stopTasks();
 
                 printf("state changed to ");
                 elapsed = pros::millis();
 
-                switch (pros::competition::get_status()) {
-                    case 0: // Run without competition switch
-                        e.setUnlocked(true);
-                        
-                    case 4: // Driver, enabled
-                        printf("driver (enabled)\n");
-                        pros::lcd::clear();
-                        flyT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { fly.run(); } fly.setState(false); });
-                        intakeT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { in.run(); } in.setState(0); });
-                    break;
+                if (pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
+                    printf(" autonomous (enabled)");
 
-                    case 6: // Auton, enabled
-                        printf("auton (enabled)\n");
-                        
-                        flyT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { fly.run(); } fly.setTarget(1700); });
-                        intakeT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { in.run(); } in.setState(0); });
-                    break;
-
-                    default: /*
-                                (5) - Driver, disabled
-                                (7) - Auton, disabled 
-                             */
-                            printf("default\n");
-                    break;
+                    flyT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { fly.run(); } fly.setTarget(1700); });
+                    intakeT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { in.run(); } in.setState(0); });
                 }
+                else if (!pros::competition::is_disabled()) {
+                    printf(" driver (enabled)");
+
+                    pros::lcd::clear();
+                    flyT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { fly.run(); } fly.setState(false); });
+                    intakeT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { in.run(); } in.setState(0); });
+                }
+                // else {
+                //     pros::lcd::clear();
+                //     flyT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { fly.run(); } fly.setState(false); });
+                //     intakeT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { in.run(); } in.setState(0); });
+                // }
+
+                // switch (pros::competition::get_status()) {
+                //     case 0: // Run without competition switch
+                //         e.setUnlocked(true);
+                        
+                //     // Driver, enabled
+                //     case 12:
+                //     case 4:
+                //         printf("driver (enabled)\n");
+                //         pros::lcd::clear();
+                //         flyT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { fly.run(); } fly.setState(false); });
+                //         intakeT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { in.run(); } in.setState(0); });
+                //     break;
+
+                //     // Auton, enabled
+                //     case 14:
+                //     case 6:
+                //         printf("auton (enabled)\n");
+                        
+                //         flyT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { fly.run(); } fly.setTarget(1700); });
+                //         intakeT = pros::Task([] { while(!pros::Task::notify_take(true, 10)) { in.run(); } in.setState(0); });
+                //     break;
+
+                //     default: /*
+                //                 (5) - Driver, disabled
+                //                 (7) - Auton, disabled 
+                //              */
+                //             printf("default\n");
+                //     break;
+                // }
             }
             state = pros::competition::get_status();
 
             motors.clear();
-            
+
             if (autonSelector.get_new_press()) {
                 aut = ((aut + 1) >= numAutons) ? 0 : aut + 1;
                 pros::delay(50);
                 controller.rumble(".");
                 pros::delay(50);
-                controller.setText(0, 0, autons[aut]);
             }
+
+            controller.setText(0, 0, autons[aut]);
+            pros::lcd::print(7, "%s", autons[aut]);
 
             controller.setText(1, 0, "Battery at " + std::to_string((int) pros::battery::get_capacity()) + "%        ");
 

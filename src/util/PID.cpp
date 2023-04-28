@@ -83,7 +83,7 @@ float pidCalculate(PID& pid, float fSetPoint, float fProcessVariable, float min,
         + fSetPoint * pid.kF // add base value
     );
     t1++;
-    /*if (t1 % 10 == 0)*/ printf("%11.5f + %11.5f + %11.5f | ", fError * pid.kP, pid.sigma * pid.kI, fDeltaE * pid.kD);
+    // /*if (t1 % 10 == 0)*/ printf("%11.5f + %11.5f + %11.5f | ", fError * pid.kP, pid.sigma * pid.kI, fDeltaE * pid.kD);
     fOutput = (fOutput > max) ? max : ((fOutput < min) ? min : fOutput);
     return (fOutput > 0 || (!uniDirectional && fOutput < 0)) ? fOutput : 0;
 }
@@ -115,7 +115,7 @@ float pidCalculateWithE(PID& pid, float err, float fSetPoint, float fProcessVari
         + fSetPoint * pid.kF // add base value
     );
     t1++;
-    /* if (t1 % 10 == 0) */ printf("%11.5f + %11.5f + %11.5f | ", fError * pid.kP, pid.sigma * pid.kI, fDeltaE * pid.kD);
+    // /* if (t1 % 10 == 0) */ printf("%11.5f + %11.5f + %11.5f | ", fError * pid.kP, pid.sigma * pid.kI, fDeltaE * pid.kD);
     fOutput = (fOutput > max) ? max : ((fOutput < min) ? min : fOutput);
     return (fOutput > 0 || (!uniDirectional && fOutput < 0)) ? fOutput : 0;
 }

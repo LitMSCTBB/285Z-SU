@@ -20,7 +20,7 @@ void Intake::run() {
             intake.moveVoltage(-12000);
             pros::delay((indexN == 1) ? 250 : 145);
             intake.moveVoltage(0);
-            while (!flyDone()) pros::delay(5);
+            while (!flyDone() && indexN != 0) pros::delay(5);
             pros::delay(400);
             indexN--;
         }
@@ -55,6 +55,11 @@ void Intake::index(int n) {
 
 bool Intake::done() {
     return indexN == 0;
+}
+
+void Intake::override() {
+    indexN = 0;
+    intakeB = 0;
 }
 
 #endif
