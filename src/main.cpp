@@ -1,24 +1,28 @@
 #include "main.h"
-#include "../include/285Z_Subsystems/flywheel.hpp"
-#include "../include/285Z_Subsystems/intake.hpp"
-#include "../include/285z/functions.hpp"
-#include "../include/285z/initSensors.hpp"
+#include "../include/init/functions.hpp"
+#include "../include/init/initRobot.hpp"
+#include "../include/init/initSensors.hpp"
 #include "../include/pros/llemu.hpp"
-#include "285Z_Subsystems/pid.hpp"
-#include "285z/initRobot.hpp"
-#include "sylib/system.hpp"
+#include "../include/subsystems/drive.hpp"
+#include "../include/subsystems/flywheel.hpp"
+#include "../include/subsystems/intake.hpp"
+#include "../include/subsystems/blooper.hpp"
+#include "../include/subsystems/expansion.hpp"
 
 Intake in;
 Flywheel fw;
+Drive d;
+Blooper b;
+Expansion ex;
 
-int autoIndex = 0;
+const std::vector<std::string> autons = {
+    "No Autonomous       ", "Full WP             ", "RS High Goal        ",
+    "LS High Goal        ", "RS Rush             "};
 
-std::string autList[] = {
-    "No Auton",  "Skills Auton", "Left Low",      "Left High",
-    "Right Low", "Right High",   "Full Winpoint",
-};
-
-int len = sizeof(autList) / sizeof(autList[0]);
+const int numAutons = (int)autons.size();
+int aut = 3;
+int timeV = 0;
+uint32_t elapsed = 0;
 
 //**************** INITIALIZE ALL CHASSIS FOR AUTON ********************//
 
@@ -76,7 +80,87 @@ std::shared_ptr<okapi::AsyncMotionProfileController> normalAuto =
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() { pros::lcd::initialize(); }
+void initialize() {
+  pros::lcd::initialize();
+  controller.clear();
+  pros::delay(110);
+  pros::lcd::print(0, "Initializing...");
+
+  intakeMotor.setBrakeMode(AbstractMotor::brakeMode::hold);
+  flywheelMotor.setBrakeMode(AbstractMotor::brakeMode::coast);
+  pros::lcd::print(2, "Brake modes set");
+
+  leftEnc.reset();
+  rightEnc.reset();
+  pros::lcd::print(3, "Tracking wheels reset");
+
+  pros::lcd::print(4, "Calibrating...");
+  imuSensor.reset();
+  while (imuSensor.is_calibrating()) {
+    pros::delay(5);
+  }
+  imuSensor.set_heading(0);
+  pros::lcd::print(4, "Reset IMU     ");
+
+  topExpansion.set_value(false);
+  laserExpansion.set_value(false);
+  blooper.set_value(false);
+  pistonIntake.set_value(false);
+  pros::lcd::print(5, "Set pistons");
+  
+  controller.clear();
+  pros::delay(110);
+
+  pros::Task tm([] {
+    std::vector<std::string> motors = {};
+
+    controller.setText(0, 0, autons[aut]);
+
+    while (true) {
+      motors.clear();
+
+      if (autonSelector.get_new_press()) {
+        aut = ((aut + 1) >= numAutons) ? 0 : aut + 1;
+        pros::delay(50);
+        controller.rumble(".");
+        pros::delay(50);
+        controller.setText(0, 0, autons[aut]);
+      }
+
+      controller.setText(
+          1, 0,
+          "Battery at " + std::to_string((int)pros::battery::get_capacity()) +
+              "%        ");
+
+      if (flywheelMotor.getTemperature() >= 46.5)
+        motors.push_back("FW");
+      if (intakeMotor.getTemperature() >= 46.5)
+        motors.push_back("I");
+      if (driveL.getTemperature() >= 50.0 || driveR.getTemperature() >= 50.0)
+        motors.push_back("D");
+
+      if (!motors.empty() && timeV < 100)
+        controller.setText(2, 0,
+                           std::accumulate(motors.begin() + 1, motors.end(),
+                                           motors[0],
+                                           [](std::string x, std::string y) {
+                                             return x + ", " + y;
+                                           }) +
+                               " overheating     ");
+      else if (timeV <= 200) {
+        controller.setText(2, 0, "");
+        if (timeV == 200) {
+          timeV = 0;
+        }
+      }
+      // printf("%.3f, %.3f, %.3f, %d\n", LD.getTemperature(),
+      // RD.getTemperature(), pros::battery::get_capacity(),
+      // controller.getBatteryCapacity());
+
+      pros::delay(10);
+    }
+  });
+}
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -94,30 +178,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {
-  imuSensor.reset();
-  while (imuSensor.is_calibrating()) {
-    pros::delay(15);
-  }
-
-  driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
-  driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
-
-  pros::lcd::set_text(6, "// CALIBRATION COMPLETE //");
-
-  while (true) {
-    bool autval = autonSelector.get_value();
-
-    if (autval == 1) {
-      pros::delay(200);
-      autoIndex = (autoIndex + 1) % len;
-    }
-
-    pros::lcd::set_text(7, autList[autoIndex]);
-
-    pros::delay(20);
-  }
-}
+void competition_initialize() {}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -131,33 +192,41 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+  fw.setTarget(0);
+  pros::Task{[=] {
+    while (true)
+    {
+      fw.auton();
+      pros::delay(10);
+    }
+  }};
+  pros::Task{[=] {
+    while (true) {
+      d.run();
+      pros::delay(10);
+    }
+  }};
   driveL.setBrakeMode(AbstractMotor::brakeMode::brake);
   driveR.setBrakeMode(AbstractMotor::brakeMode::brake);
-  // autoIndex = 3;
-  switch (autoIndex) {
+  switch (aut) {
   case (0):
-    noAuton(normalAuto, fastAuto);
+    noAuton();
     break;
   case (1):
-    skillsAuto(normalAuto, fastAuto);
+    fullWP();
     break;
   case (2):
-    leftLow(normalAuto, fastAuto);
+    rightSideHighGoal();
     break;
   case (3):
-    leftHigh(normalAuto, fastAuto);
+    leftSideHighGoal();
     break;
   case (4):
-    rightLow(normalAuto, fastAuto);
-    break;
-  case (5):
-    rightHigh(normalAuto, fastAuto);
-    break;
-  case (6):
-    winPoint(normalAuto, fastAuto);
+    rightSideRush();
     break;
   default:
-    noAuton(normalAuto, fastAuto);
+    noAuton();
+    break;
   }
 }
 
@@ -174,22 +243,37 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {
+
+void opcontrol() {  
   driveL.setBrakeMode(AbstractMotor::brakeMode::hold);
   driveR.setBrakeMode(AbstractMotor::brakeMode::hold);
+
+  auto fwT = pros::Task {
+    [=] {
+      while (true) {
+        fw.op();
+        in.run();
+        ex.run();
+        b.run();
+        pros::delay(10);
+      }
+    }
+  };
+
+  // auto inT = pros::Task {
+  //   [=] {
+  //     in.run();
+  //   }
+  // };
+
+  // auto exT = pros::Task {
+  //   [=] { ex.run(); }
+  // };
 
   while (1) {
     model->tank(controller.getAnalog(okapi::ControllerAnalog::leftY),
                 controller.getAnalog(okapi::ControllerAnalog::rightY));
 
-    // model->arcade(controller.getAnalog(okapi::ControllerAnalog::rightY),
-    // controller.getAnalog(okapi::ControllerAnalog::rightX));
-
-    in.run();
-    fw.spin();
-    fw.shooter();
-    fw.blooperToggle();
-    endgame();
     pros::delay(20);
   }
 }

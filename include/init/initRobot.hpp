@@ -5,16 +5,15 @@
 extern Controller controller;
 
 // Controller Button
-extern ControllerButton intakeButton;
-extern ControllerButton intakeStopButton;
-extern ControllerButton outtakeButton;
-extern ControllerButton flywheelButton;
-extern ControllerButton indexerButton;
-extern ControllerButton rollerButton;
-extern ControllerButton endgameButton;
-extern ControllerButton pistonButton;
-extern ControllerButton pistonOnceButton;
 extern ControllerButton blooperButton;
+extern ControllerButton intakeButton;
+extern ControllerButton intakeInButton;
+extern ControllerButton intakeOutButton;
+extern ControllerButton flywheelButton;
+extern ControllerButton expandButton;
+extern ControllerButton brakeButton;
+extern ControllerButton laserButton;
+extern ControllerButton distanceButton;
 
 // drive motor points
 extern int rightFrontPort;

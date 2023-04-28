@@ -63,6 +63,13 @@ using namespace okapi;
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define driveGearset AbstractMotor::gearset::blue
+#define driveTPR imev5BlueTPR
+#define driveRatio (36.0 / 60.0)
+#define driveWheels 3.25_in
+#define wheelBase 10.5_in
+
 void autonomous(void);
 void initialize(void);
 void disabled(void);

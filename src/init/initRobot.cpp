@@ -1,4 +1,4 @@
-#include "../include/285z/initRobot.hpp"
+#include "../include/init/initRobot.hpp"
 #include "okapi/api/device/motor/abstractMotor.hpp"
 #include "okapi/api/util/logging.hpp"
 #include "okapi/api/util/mathUtil.hpp"
@@ -9,52 +9,52 @@
 okapi::Controller controller;
 
 // Controller Button
+ControllerButton blooperButton = ControllerDigital::right;
 ControllerButton intakeButton = ControllerDigital::Y;
-ControllerButton intakeStopButton = ControllerDigital::left;
-ControllerButton outtakeButton = ControllerDigital::R2;
+ControllerButton intakeInButton = ControllerDigital::L2;
+ControllerButton intakeOutButton = ControllerDigital::R2;
 ControllerButton flywheelButton = ControllerDigital::L1;
-// ControllerButton rollerButton = ControllerDigital::R2;
-ControllerButton endgameButton = ControllerDigital::R1;
-ControllerButton indexerButton = ControllerDigital::right;
-ControllerButton pistonOnceButton = ControllerDigital::L2;
-ControllerButton blooperButton = ControllerDigital::X;
+ControllerButton expandButton = ControllerDigital::R1;
+ControllerButton brakeButton = ControllerDigital::X;
+ControllerButton laserButton = ControllerDigital::up;
+ControllerButton distanceButton = ControllerDigital::down;
 
 // drive motor points
-int rightFrontPort = 9;
-int rightMiddlePort = 10;
-int rightBackPort = 20;
+int rightFrontPort = 19;
+int rightMiddlePort = -18;
+int rightBackPort = 17;
 
-int leftFrontPort = -2;
-int leftMiddlePort = -1;
-int leftBackPort = -11;
+int leftFrontPort = -13;
+int leftMiddlePort = 16;
+int leftBackPort = -14;
 
-int intakePort = 6;
+int intakePort = 20;
 
-int flywheelPort = 7;
+int flywheelPort = 1;
 
-Motor rightFrontMotor(rightFrontPort, false, AbstractMotor::gearset::blue,
+Motor rightFrontMotor(rightFrontPort, true, AbstractMotor::gearset::blue,
                       AbstractMotor::encoderUnits::degrees,
                       Logger::getDefaultLogger());
-Motor rightMiddleMotor(rightMiddlePort, false, AbstractMotor::gearset::blue,
+Motor rightMiddleMotor(rightMiddlePort, true, AbstractMotor::gearset::blue,
                        AbstractMotor::encoderUnits::degrees,
                        Logger::getDefaultLogger());
-Motor rightBackMotor(rightBackPort, false, AbstractMotor::gearset::blue,
+Motor rightBackMotor(rightBackPort, true, AbstractMotor::gearset::blue,
                      AbstractMotor::encoderUnits::degrees,
                      Logger::getDefaultLogger());
 
-Motor leftFrontMotor(leftFrontPort, false, AbstractMotor::gearset::blue,
+Motor leftFrontMotor(leftFrontPort, true, AbstractMotor::gearset::blue,
                      AbstractMotor::encoderUnits::degrees,
                      Logger::getDefaultLogger());
-Motor leftMiddleMotor(leftMiddlePort, false, AbstractMotor::gearset::blue,
+Motor leftMiddleMotor(leftMiddlePort, true, AbstractMotor::gearset::blue,
                       AbstractMotor::encoderUnits::degrees,
                       Logger::getDefaultLogger());
-Motor leftBackMotor(leftBackPort, false, AbstractMotor::gearset::blue,
+Motor leftBackMotor(leftBackPort,true, AbstractMotor::gearset::blue,
                     AbstractMotor::encoderUnits::degrees,
                     Logger::getDefaultLogger());
 
 Motor intakeMotor(intakePort);
 
-Motor flywheelMotor(flywheelPort, true, AbstractMotor::gearset::blue,
+Motor flywheelMotor(flywheelPort, false, AbstractMotor::gearset::blue,
                     AbstractMotor::encoderUnits::degrees);
 
 MotorGroup driveL({leftFrontPort, leftMiddlePort, leftBackPort});
